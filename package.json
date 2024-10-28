@@ -10,7 +10,10 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "next": "14.2.16",
+    "prettier": "^3.3.3",
     "react": "^18",
     "react-dom": "^18"
   },
