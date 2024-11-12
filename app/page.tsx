@@ -1,91 +1,57 @@
-import Image from 'next/image';
+import Link from 'next/link';
+import { SearchInput } from '~/components/Main';
+import { Text } from '~/components/atomic';
+import * as S from './page.css';
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div>
+    <>
+      <header className={S.HeaderContainer}>
+        <Link href={'/'}>
+          <Text fontStyle='subtitle'>RecipeHub</Text>
+        </Link>
+        <nav>
+          <ul className={S.HeaderWrapper}>
+            <li>Keywords</li>
+            <li>About</li>
+          </ul>
+        </nav>
+      </header>
       <main>
-        <Image
-          src='https://nextjs.org/icons/next.svg'
-          alt='Next.js logo'
-          width={180}
-          height={38}
-          priority
-        />
+        <section>
+          <Text as='h2' fontStyle='title'>
+            Find a Recipe
+          </Text>
+          <SearchInput />
+        </section>
 
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <section>
+          <Text as='h2' fontStyle='title'>
+            Popular Recipes
+          </Text>
+          <div>
+            <div>card</div>
+          </div>
+        </section>
 
-        <div>
-          <a
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Image
-              src='https://nextjs.org/icons/vercel.svg'
-              alt='Vercel logomark'
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Read our docs
-          </a>
-        </div>
+        <section>
+          <Text as='h2' fontStyle='title'>
+            Recipe Keywords
+          </Text>
+
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+            {['Breakfast', 'Lunch', 'Dinner', 'Dessert'].map((category) => (
+              <Link
+                key={category}
+                href={`/category/${category.toLowerCase()}`}
+                className='bg-gray-100 p-4 rounded-md text-center hover:bg-gray-200 transition-colors'
+              >
+                {category}
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
-      <footer>
-        <a
-          href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='https://nextjs.org/icons/file.svg'
-            alt='File icon'
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='https://nextjs.org/icons/window.svg'
-            alt='Window icon'
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href='https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='https://nextjs.org/icons/globe.svg'
-            alt='Globe icon'
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
