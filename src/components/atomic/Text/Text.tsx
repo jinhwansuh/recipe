@@ -16,8 +16,9 @@ export default function Text({
   ...props
 }: TextProps) {
   const Tag = as || 'div';
+
   return (
-    <Tag as className={S.textVariants[fontStyle]} {...props}>
+    <Tag className={S.textVariants[fontStyle]} {...props}>
       {children}
     </Tag>
   );
