@@ -16,7 +16,7 @@ export default function SearchInput({ defaultValue }: SearchInputProps) {
   const handleSearchClick = () => {
     if (!value) return;
 
-    router.push(`/search?query=${value}`);
+    router.push(`/search?query=${encodeURIComponent(value)}`);
   };
 
   return (
@@ -26,7 +26,9 @@ export default function SearchInput({ defaultValue }: SearchInputProps) {
         onChange={(e) => setValue(e.target.value)}
         defaultValue={defaultValue}
       />
-      <Button onClick={handleSearchClick}>Search</Button>
+      <Button data-cy='search-button' onClick={handleSearchClick}>
+        Search
+      </Button>
     </div>
   );
 }
