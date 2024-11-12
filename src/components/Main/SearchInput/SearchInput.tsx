@@ -25,6 +25,11 @@ export default function SearchInput({ defaultValue }: SearchInputProps) {
         data-cy='search-input'
         onChange={(e) => setValue(e.target.value)}
         defaultValue={defaultValue}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearchClick();
+          }
+        }}
       />
       <Button data-cy='search-button' onClick={handleSearchClick}>
         Search
