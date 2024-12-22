@@ -3,9 +3,7 @@
  * https://github.com/elad2412/the-new-css-reset/blob/main/css/reset.css
  * を参照して下さい。
  */
-
 import { globalStyle } from '@vanilla-extract/css';
-
 import * as layers from './layers.css';
 
 /**
