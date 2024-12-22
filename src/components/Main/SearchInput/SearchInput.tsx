@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button, Input } from '~/components/atomic';
+import { Button, Input } from '~/src/components/atomic';
 import * as S from './SearchInput.css';
 
 interface SearchInputProps {

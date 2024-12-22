@@ -1,5 +1,5 @@
 import { ElementType, HTMLAttributes, ReactNode } from 'react';
-import { KeyOf } from '~/types/helper';
+import { KeyOf } from '~/src/types/helper';
 import { textVariants } from './Text.css';
 import * as S from './Text.css';
 

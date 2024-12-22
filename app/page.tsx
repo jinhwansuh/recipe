@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { SearchInput } from '~/components/Main';
-import { Text } from '~/components/atomic';
+import { SearchInput } from '~/src/components/Main';
+import { Text } from '~/src/components/atomic';
 import * as S from './page.css';
 
 export default async function Home() {
