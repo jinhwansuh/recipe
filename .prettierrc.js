@@ -15,7 +15,9 @@ module.exports = {
   importOrder: [
     '^next$',
     '^next(.*)$',
-    '^@@react-three(.*)$',
+    '^react$',
+    '^react(.*)$',
+    '^@react(.*)$',
     '<THIRD_PARTY_MODULES>',
     '^~/components(.*)$',
     '^~/api(.*)$',
