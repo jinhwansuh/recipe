@@ -22,6 +22,7 @@ import {
 import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
 import { signupSchema, SignupValue } from '~/utils/validation/user';
+import { PAGE_ROUTES } from '~/constants/route';
 import { createUser } from './actions';
 
 export default function SignUp() {
@@ -71,7 +72,7 @@ export default function SignUp() {
                 name='username'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>name</FormLabel>
                     <FormControl>
                       <Input placeholder='username' {...field} />
                     </FormControl>
@@ -89,9 +90,8 @@ export default function SignUp() {
                   <FormItem>
                     <FormLabel>email</FormLabel>
                     <FormControl>
-                      <Input placeholder='email' {...field} />
+                      <Input placeholder='example@example.com' {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -109,7 +109,6 @@ export default function SignUp() {
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -119,64 +118,33 @@ export default function SignUp() {
                 name='confirmPassword'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>confirmPassword</FormLabel>
+                    <FormLabel>confirm password</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='confirmPassword'
+                        placeholder='password'
                         type='password'
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <Button type='submit' className='w-full'>
-                Submit
+                Sign up
               </Button>
-            </form>
-          </Form>
-          {/* 
-          <form>
-            <div className='flex flex-col gap-6'>
-              <div className='flex flex-col gap-6'>
-                <div className='flex flex-col gap-2'>
-                  <Label htmlFor='name'>Name</Label>
-                  <Input
-                    id='name'
-                    type='text'
-                    placeholder='john doe'
-                    required
-                  />
-                </div>
-                <div className='flex flex-col gap-2'>
-                  <Label htmlFor='email'>Email</Label>
-                  <Input
-                    id='email'
-                    type='email'
-                    placeholder='m@example.com'
-                    required
-                  />
-                </div>
-                <div className='flex flex-col gap-2'>
-                  <div className='flex items-center'>
-                    <Label htmlFor='password'>Password</Label>
-                  </div>
-                  <Input id='password' type='password' required />
-                </div>
-                <Button type='submit' className='w-full'>
-                  Sign Up
-                </Button>
-              </div>
+
               <div className='text-center text-sm'>
                 Already have an account?{' '}
-                <a href='/signin' className='underline underline-offset-4'>
+                <a
+                  href={PAGE_ROUTES.signIn}
+                  className='underline underline-offset-4'
+                >
                   Sign In
                 </a>
               </div>
-            </div>
-          </form> */}
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
