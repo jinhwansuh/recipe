@@ -38,15 +38,20 @@ export default function SignUp() {
 
   const onSubmit = async (values: SignupValue) => {
     try {
-      const response = await createUser(values);
-      console.log(response);
+      await createUser(values);
       toast({
         description: 'signup successful',
       });
     } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          variant: 'destructive',
+          description: error.message,
+        });
+      }
       toast({
         variant: 'destructive',
-        description: error.message,
+        description: 'server error',
       });
     }
   };
