@@ -93,24 +93,28 @@ model Authenticator {
 }
 
 model Recipe {
-  id          String   @id @default(cuid())
-  title       String
-  imageUrl    String
-  ingredients Json
-  youtubeUrl  String?
-  authorID    String
-  author      Author   @relation(fields: [authorID], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  title        String
+  tags         String[]
+  thumbnailUrl String?
+  ingredients  Json
+  youtubeUrl   String?
+  steps        String[]
+  authorID     String
+  author       Author   @relation(fields: [authorID], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Author {
   id         String   @id @default(cuid())
-  name       String
+  name       String   @unique
   youtubeUrl String?
   imageUrl   String?
   youtubeId  String?
   Recipe     Recipe[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
