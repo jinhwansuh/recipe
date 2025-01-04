@@ -27,3 +27,14 @@ export const uploadRecipeSchema = z.object({
 });
 
 export type UploadRecipeValue = z.infer<typeof uploadRecipeSchema>;
+
+export const uploadAuthorSchema = z.object({
+  name: z.string().min(2, {
+    message: 'name must be at least 2 characters.',
+  }),
+  youtubeUrl: z.union([z.string().url(), z.literal('')]),
+  imageUrl: z.union([z.string().url(), z.literal('')]),
+  youtubeId: z.string().optional(),
+});
+
+export type UploadAuthorValue = z.infer<typeof uploadAuthorSchema>;
