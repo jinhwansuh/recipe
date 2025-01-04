@@ -1,5 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettier from 'eslint-plugin-prettier';
 import { dirname } from 'path';
 import tseslint from 'typescript-eslint';
@@ -19,10 +20,13 @@ const eslintConfig = [
   {
     plugins: {
       prettier,
+      jsxA11y,
     },
     rules: {
       'prettier/prettier': 'error',
-      // "no-unused-vars": "warn"
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
   eslintConfigPrettier,

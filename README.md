@@ -5,10 +5,12 @@
 - 인분, 무게를 변경하면 재료 양을 변경
 
 ## 개발 방향성
-- Next.js14 기반으로 프론트엔드 구현
-- 별도의 서버 설정 없이 Vercel Storage를 이용하여 DB 구성
+- Next.js v15 기반 프론트엔드 구현
+- 별도의 서버 설정 없이 Prisma, Vercel Storage(supabase)를 이용하여 DB 구성
 
 ## tech stack
-- next.js
+- Next.js v15
+- Auth.js
 - shadcn/ui, tailwind
-- prsima, supabase
+- React-hook-form, Zod
+- prisma, supabase
