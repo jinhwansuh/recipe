@@ -56,6 +56,20 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      animation: {
+        'text-reveal':
+          'text-reveal 3s cubic-bezier(0.77, 0, 0.175, 1) infinite',
+      },
+      keyframes: {
+        'text-reveal': {
+          '0%': {
+            transform: 'translate(0, 100%)',
+          },
+          '100%': {
+            transform: 'translate(0, 0)',
+          },
+        },
+      },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
