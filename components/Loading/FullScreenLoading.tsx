@@ -3,6 +3,7 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
 } from '~/components/ui/alert-dialog';
 import RevealText from '../RevealText/RevealText';
 import { Spinner } from '../ui/spinner';
@@ -11,11 +12,13 @@ export default function FullScreenLoading() {
   return (
     <AlertDialog open={true}>
       <AlertDialogContent className='border-0 bg-transparent'>
-        <AlertDialogHeader>
+        <div className='text-center'>
           <Spinner />
-          <AlertDialogTitle className='text-center'>
-            <RevealText text='Loading...' />
-          </AlertDialogTitle>
+          <RevealText text='Loading...' />
+        </div>
+        <AlertDialogHeader className='sr-only'>
+          <AlertDialogTitle className='text-center'>loading</AlertDialogTitle>
+          <AlertDialogDescription>loading</AlertDialogDescription>
         </AlertDialogHeader>
       </AlertDialogContent>
     </AlertDialog>
