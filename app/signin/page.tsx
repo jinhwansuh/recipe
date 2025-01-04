@@ -2,8 +2,10 @@
 
 import { signIn } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import FullScreenLoading from '~/components/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
   Card,
@@ -26,6 +28,7 @@ import { signinSchema, SignInValue } from '~/utils/validation/user';
 import { PAGE_ROUTES } from '~/constants/route';
 
 export default function SignIn() {
+  const [isPending, setIsPending] = useState(false);
   const { toast } = useToast();
   const form = useForm<SignInValue>({
     resolver: zodResolver(signinSchema),
@@ -36,6 +39,7 @@ export default function SignIn() {
   });
 
   const onSubmit = async (values: SignInValue) => {
+    setIsPending(true);
     const data = await signIn('credentials', {
       email: values.email,
       password: values.password,
@@ -52,10 +56,12 @@ export default function SignIn() {
         description: data?.code || 'server error',
       });
     }
+    setIsPending(false);
   };
 
   return (
     <div className='flex flex-col gap-6 m-auto min-h-svh justify-center max-w-sm'>
+      {isPending && <FullScreenLoading />}
       <Card>
         <CardHeader className='text-center'>
           <CardTitle className='text-xl'>Welcome back</CardTitle>
@@ -95,7 +101,7 @@ export default function SignIn() {
                 )}
               />
 
-              <Button type='submit' className='w-full'>
+              <Button type='submit' className='w-full' disabled={isPending}>
                 Sign up
               </Button>
 
