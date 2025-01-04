@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "tsc && next lint",
     "cypress:open": "cypress open",
     "prettier": "npx prettier -w .",
     "prepare": "husky",
     "schema": "npx prisma migrate dev",
-    "prisma": "npx prisma studio"
+    "prisma": "npx prisma studio",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
