@@ -23,7 +23,7 @@ import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
 import { signupSchema, SignupValue } from '~/utils/validation/user';
 import { PAGE_ROUTES } from '~/constants/route';
-import { createUser } from './actions';
+import { signUpUser } from '~/lib/actions/authActions';
 
 export default function SignUp() {
   const { toast } = useToast();
@@ -39,20 +39,14 @@ export default function SignUp() {
 
   const onSubmit = async (values: SignupValue) => {
     try {
-      await createUser(values);
+      await signUpUser(values);
       toast({
         description: 'signup successful',
       });
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          variant: 'destructive',
-          description: error.message,
-        });
-      }
+    } catch (error: any) {
       toast({
         variant: 'destructive',
-        description: 'server error',
+        description: error.message || 'server error',
       });
     }
   };
