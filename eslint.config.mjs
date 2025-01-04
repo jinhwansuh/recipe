@@ -27,6 +27,13 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
+      'react/self-closing-comp': [
+        'error',
+        {
+          component: true,
+          html: true,
+        },
+      ],
     },
   },
   eslintConfigPrettier,
