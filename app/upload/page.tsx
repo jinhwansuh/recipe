@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, X } from 'lucide-react';
-import { z } from 'zod';
 import { Button } from '~/components/ui/button';
 import {
   Form,
@@ -16,36 +15,14 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
-
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  tag: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  ingredients: z.array(
-    z.object({
-      name: z.string().min(1, { message: 'Ingredient name is required' }),
-      amount: z.coerce.number().min(0.0001, { message: 'Amount is required' }),
-      unit: z.string().min(1, { message: 'Unit is required' }),
-    }),
-  ),
-  steps: z.array(
-    z.object({
-      description: z
-        .string()
-        .min(1, { message: 'Step description is required' }),
-    }),
-  ),
-  imageUrl: z.string(),
-  videoUrl: z.string(),
-  recipeAuthor: z.string(),
-});
+import {
+  uploadRecipeSchema,
+  UploadRecipeValue,
+} from '~/utils/validation/upload';
 
 export default function ProfileForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<UploadRecipeValue>({
+    resolver: zodResolver(uploadRecipeSchema),
     defaultValues: {
       title: '',
       tag: '',
@@ -74,7 +51,7 @@ export default function ProfileForm() {
     name: 'steps',
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: UploadRecipeValue) {
     console.log(values);
   }
 
