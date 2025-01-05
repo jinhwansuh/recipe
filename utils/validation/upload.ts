@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 export const uploadRecipeSchema = z.object({
   title: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: 'recipe title must be at least 2 characters.',
   }),
   tags: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: 'tags must be at least 2 characters.',
   }),
   ingredients: z.array(
     z.object({
@@ -23,7 +23,7 @@ export const uploadRecipeSchema = z.object({
   ),
   imageUrl: z.string(),
   videoUrl: z.string(),
-  recipeAuthor: z.string(),
+  recipeAuthor: z.string().min(1, { message: 'Author is required' }),
 });
 
 export type UploadRecipeValue = z.infer<typeof uploadRecipeSchema>;
