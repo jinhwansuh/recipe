@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 
-export function ThemeButton() {
+export default function ThemeButton() {
   const { theme, setTheme } = useTheme();
 
   const handleThemeClick = () => {

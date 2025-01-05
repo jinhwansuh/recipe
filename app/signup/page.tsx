@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
   Card,
@@ -26,6 +28,7 @@ import { PAGE_ROUTES } from '~/constants/route';
 import { signUpUser } from '~/lib/actions/authActions';
 
 export default function SignUp() {
+  const [isPending, setIsPending] = useState(false);
   const { toast } = useToast();
   const form = useForm<SignupValue>({
     resolver: zodResolver(signupSchema),
@@ -39,6 +42,7 @@ export default function SignUp() {
 
   const onSubmit = async (values: SignupValue) => {
     try {
+      setIsPending(true);
       await signUpUser(values);
       toast({
         description: 'signup successful',
@@ -48,11 +52,14 @@ export default function SignUp() {
         variant: 'destructive',
         description: error.message || 'server error',
       });
+    } finally {
+      setIsPending(false);
     }
   };
 
   return (
     <div className='flex flex-col gap-6 m-auto min-h-svh justify-center max-w-sm'>
+      {isPending && <FullScreenLoading />}
       <Card>
         <CardHeader className='text-center'>
           <CardTitle className='text-xl'>Welcome back</CardTitle>
@@ -124,7 +131,7 @@ export default function SignUp() {
                   </FormItem>
                 )}
               />
-              <Button type='submit' className='w-full'>
+              <Button type='submit' className='w-full' disabled={isPending}>
                 Sign up
               </Button>
 
