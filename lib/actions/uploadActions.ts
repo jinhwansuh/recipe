@@ -12,7 +12,7 @@ import prisma from '~/lib/prisma';
 export const createAuthor = async (data: UploadAuthorValue) => {
   const session = await auth();
 
-  if (session?.user?.role !== 'ADMIN') {
+  if (!session || session.user.role !== 'ADMIN') {
     throw new Error('not authorized');
   }
 
@@ -39,7 +39,7 @@ export const createAuthor = async (data: UploadAuthorValue) => {
 export const createRecipe = async (data: UploadRecipeValue) => {
   const session = await auth();
 
-  if (session?.user?.role !== 'ADMIN') {
+  if (!session || session.user.role !== 'ADMIN') {
     throw new Error('not authorized');
   }
 
@@ -63,5 +63,20 @@ export const createRecipe = async (data: UploadRecipeValue) => {
     });
   } catch (error: any) {
     throw new Error(error.message || 'server error');
+  }
+};
+
+export const getAuthors = async () => {
+  const session = await auth();
+
+  if (!session || session.user.role !== 'ADMIN') {
+    throw new Error('not authorized');
+  }
+
+  try {
+    const authors = await prisma.author.findMany();
+    return authors;
+  } catch (error: any) {
+    throw new Error(error.message || 'Failed to fetch users');
   }
 };

@@ -1,10 +1,11 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, X } from 'lucide-react';
 import FullScreenLoading from '~/components/Loading/FullScreenLoading';
+import SelectForm from '~/components/common/SelectForm/SelectForm';
 import { Button } from '~/components/ui/button';
 import {
   Form,
@@ -16,16 +17,21 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { SelectItem } from '~/components/ui/select';
 import { useToast } from '~/hooks/use-toast';
 import {
   uploadRecipeSchema,
   UploadRecipeValue,
 } from '~/utils/validation/upload';
-import { createRecipe } from '~/lib/actions/uploadActions';
+import { Units } from '~/constants/unit';
+import { createRecipe, getAuthors } from '~/lib/actions/uploadActions';
 
 export default function ProfileForm() {
   const { toast } = useToast();
   const [isPending, setIsPending] = useState(false);
+  const [authors, setAuthors] = useState<
+    Awaited<ReturnType<typeof getAuthors>>
+  >([]);
   const form = useForm<UploadRecipeValue>({
     resolver: zodResolver(uploadRecipeSchema),
     defaultValues: {
@@ -60,6 +66,21 @@ export default function ProfileForm() {
     name: 'steps',
   });
 
+  useEffect(() => {
+    const fetchAuthors = async () => {
+      try {
+        const authors = await getAuthors();
+        setAuthors(authors);
+      } catch (error: any) {
+        toast({
+          variant: 'destructive',
+          description: error.message || 'server error',
+        });
+      }
+    };
+    fetchAuthors();
+  }, []);
+
   const onSubmit = async (values: UploadRecipeValue) => {
     console.log(values);
     try {
@@ -88,7 +109,7 @@ export default function ProfileForm() {
             name='title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>recipe title</FormLabel>
                 <FormControl>
                   <Input placeholder='title' {...field} />
                 </FormControl>
@@ -104,7 +125,7 @@ export default function ProfileForm() {
             name='tags'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>아무 태그</FormLabel>
+                <FormLabel>any tags</FormLabel>
                 <FormControl>
                   <Input placeholder='tags' {...field} />
                 </FormControl>
@@ -145,9 +166,19 @@ export default function ProfileForm() {
                   control={form.control}
                   name={`ingredients.${index}.unit`}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className='flex-1'>
                       <FormControl>
-                        <Input placeholder='unit' {...field} />
+                        <SelectForm
+                          onChange={field.onChange}
+                          value={field.value}
+                          placeholder='Unit'
+                        >
+                          {Units.map((unit) => (
+                            <SelectItem key={unit} value={unit}>
+                              {unit}
+                            </SelectItem>
+                          ))}
+                        </SelectForm>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -227,11 +258,10 @@ export default function ProfileForm() {
             name='imageUrl'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>이미지 or 썸네일 url</FormLabel>
+                <FormLabel>image or thumbnail url</FormLabel>
                 <FormControl>
                   <Input placeholder='imageUrl' {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -242,11 +272,10 @@ export default function ProfileForm() {
             name='videoUrl'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>비디오 url</FormLabel>
+                <FormLabel>video url</FormLabel>
                 <FormControl>
                   <Input placeholder='videoUrl' {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -257,17 +286,25 @@ export default function ProfileForm() {
             name='recipeAuthor'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>레시피 출처</FormLabel>
-                <FormControl>
-                  <Input placeholder='recipeAuthor' {...field} />
-                </FormControl>
-
+                <FormLabel>recipe author</FormLabel>
+                <SelectForm
+                  onChange={field.onChange}
+                  value={field.value}
+                  placeholder='Select Author'
+                >
+                  {authors.map((author) => (
+                    <SelectItem key={author.id} value={author.id}>
+                      {author.name}
+                    </SelectItem>
+                  ))}
+                </SelectForm>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button type='submit'>Submit</Button>
+          <Button type='submit' className='w-full'>
+            Upload
+          </Button>
         </form>
       </Form>
     </>
