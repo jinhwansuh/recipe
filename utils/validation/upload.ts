@@ -4,7 +4,7 @@ export const uploadRecipeSchema = z.object({
   title: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
-  tag: z.string().min(2, {
+  tags: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
   ingredients: z.array(

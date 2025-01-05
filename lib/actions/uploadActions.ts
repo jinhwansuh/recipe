@@ -3,6 +3,8 @@
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
+  uploadRecipeSchema,
+  UploadRecipeValue,
 } from '~/utils/validation/upload';
 import { auth } from '~/auth';
 import prisma from '~/lib/prisma';
@@ -27,6 +29,36 @@ export const createAuthor = async (data: UploadAuthorValue) => {
         youtubeUrl: parseData.data.youtubeUrl,
         imageUrl: parseData.data.imageUrl,
         youtubeId: parseData.data.youtubeId,
+      },
+    });
+  } catch (error: any) {
+    throw new Error(error.message || 'server error');
+  }
+};
+
+export const createRecipe = async (data: UploadRecipeValue) => {
+  const session = await auth();
+
+  if (session?.user?.role !== 'ADMIN') {
+    throw new Error('not authorized');
+  }
+
+  const parseData = uploadRecipeSchema.safeParse(data);
+
+  if (!parseData.success) {
+    throw new Error(parseData.error.errors[0].message);
+  }
+
+  try {
+    await prisma.recipe.create({
+      data: {
+        title: parseData.data.title,
+        tags: parseData.data.tags.split(' '),
+        thumbnailUrl: parseData.data.imageUrl,
+        ingredients: parseData.data.ingredients,
+        youtubeUrl: parseData.data.videoUrl,
+        steps: parseData.data.steps.map((step) => step.description),
+        authorID: parseData.data.recipeAuthor,
       },
     });
   } catch (error: any) {

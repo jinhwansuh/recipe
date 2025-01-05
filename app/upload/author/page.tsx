@@ -52,7 +52,7 @@ export default function ProfileForm() {
   };
 
   return (
-    <div>
+    <>
       {isPending && <FullScreenLoading />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
@@ -116,6 +116,6 @@ export default function ProfileForm() {
           </Button>
         </form>
       </Form>
-    </div>
+    </>
   );
 }
