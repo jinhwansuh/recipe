@@ -5,8 +5,8 @@ import {
   AlertDialogTitle,
   AlertDialogDescription,
 } from '~/components/ui/alert-dialog';
+import { Spinner } from '~/components/ui/spinner';
 import RevealText from '../RevealText/RevealText';
-import { Spinner } from '../ui/spinner';
 
 export default function FullScreenLoading() {
   return (

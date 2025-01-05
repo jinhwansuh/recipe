@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import FullScreenLoading from '~/components/Loading/FullScreenLoading';
+import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
   Form,

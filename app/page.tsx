@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ThemeButton from '~/components/ThemeButton/ThemeButton';
+import ThemeButton from '~/components/common/ThemeButton/ThemeButton';
 import { Button } from '~/components/ui/button';
 import { auth } from '~/auth';
 import { signOut } from '~/lib/actions/authActions';
