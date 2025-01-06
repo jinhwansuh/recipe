@@ -8,6 +8,7 @@ declare global {
        * @example cy.getByCy('greeting')
        */
       getByCy(value: string): Chainable<HTMLAttributes>;
+      login(): Chainable<void>;
     }
   }
 }

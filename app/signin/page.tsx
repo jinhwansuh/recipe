@@ -81,7 +81,11 @@ export default function SignIn() {
                     <FormItem>
                       <FormLabel>email</FormLabel>
                       <FormControl>
-                        <Input placeholder='example@example.com' {...field} />
+                        <Input
+                          placeholder='example@example.com'
+                          data-cy='email-input'
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -97,6 +101,7 @@ export default function SignIn() {
                         <Input
                           placeholder='password'
                           type='password'
+                          data-cy='password-input'
                           {...field}
                         />
                       </FormControl>

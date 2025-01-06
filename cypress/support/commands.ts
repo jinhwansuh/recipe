@@ -42,3 +42,23 @@
 Cypress.Commands.add('getByCy', (text) => {
   return cy.get(`[data-cy=${text}]`);
 });
+
+Cypress.on('uncaught:exception', (err) => {
+  // Check if the error message includes "NEXT_REDIRECT"
+  if (err.message.includes('NEXT_REDIRECT')) {
+    return false;
+  }
+});
+
+/**
+ * test ID로 로그인하는 커맨드
+ */
+Cypress.Commands.add('login', () => {
+  cy.visit('/signin');
+  cy.getByCy('email-input').type('test@test.com');
+  cy.getByCy('password-input').type(`${'123123'}{enter}`, { log: false });
+  cy.intercept('GET', 'api/auth/session').as('session');
+  cy.wait('@session');
+  cy.url().should('eq', Cypress.config().baseUrl + '/');
+  cy.getCookie('authjs.session-token').should('exist');
+});
