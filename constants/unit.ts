@@ -1,4 +1,4 @@
-export const Units = [
+export const UNITS = [
   'serving',
   'pcs',
   'g',

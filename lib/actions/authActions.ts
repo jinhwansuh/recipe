@@ -2,9 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcryptjs';
+import prisma from '~/lib/prisma';
 import { signupSchema, SignupValue } from '~/utils/validation/user';
 import { signOut as nextAuthSignOut } from '~/auth';
-import prisma from '~/lib/prisma';
 
 export const signOut = async () => {
   console.log('signOut');

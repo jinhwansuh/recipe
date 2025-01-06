@@ -1,6 +1,10 @@
-export const SECOND = 1;
-export const MINUTE = 60 * SECOND;
-export const HOUR = 60 * MINUTE;
-export const DAY = 24 * HOUR;
-export const WEEK = 7 * DAY;
-export const MONTH = 30 * DAY;
+export type BaseTime = (time: { base: 'ms' | 's' }) => number;
+
+export const MILLISECOND = 1;
+export const SECOND: BaseTime = (time) =>
+  time.base === 'ms' ? 1000 * MILLISECOND : 1;
+export const MINUTE: BaseTime = (time) => 60 * SECOND(time);
+export const HOUR: BaseTime = (time) => 60 * MINUTE(time);
+export const DAY: BaseTime = (time) => 24 * HOUR(time);
+export const WEEK: BaseTime = (time) => 7 * DAY(time);
+export const MONTH: BaseTime = (time) => 30 * DAY(time);

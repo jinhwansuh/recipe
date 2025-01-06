@@ -1,5 +1,6 @@
 'use server';
 
+import prisma from '~/lib/prisma';
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
@@ -7,7 +8,6 @@ import {
   UploadRecipeValue,
 } from '~/utils/validation/upload';
 import { auth } from '~/auth';
-import prisma from '~/lib/prisma';
 
 export const createAuthor = async (data: UploadAuthorValue) => {
   const session = await auth();
@@ -54,6 +54,7 @@ export const createRecipe = async (data: UploadRecipeValue) => {
       data: {
         title: parseData.data.title,
         tags: parseData.data.tags.split(' '),
+        serving: parseData.data.serving,
         thumbnailUrl: parseData.data.imageUrl,
         ingredients: parseData.data.ingredients,
         youtubeUrl: parseData.data.videoUrl,

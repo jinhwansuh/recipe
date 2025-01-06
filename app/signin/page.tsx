@@ -60,68 +60,78 @@ export default function SignIn() {
   };
 
   return (
-    <div className='flex flex-col gap-6 m-auto min-h-svh justify-center max-w-sm'>
+    <>
       {isPending && <FullScreenLoading />}
-      <Card>
-        <CardHeader className='text-center'>
-          <CardTitle className='text-xl'>Welcome back</CardTitle>
-          <CardDescription>Login with your Email</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>email</FormLabel>
-                    <FormControl>
-                      <Input placeholder='example@example.com' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='password'
-                        type='password'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+      <div className='m-auto flex min-h-svh max-w-sm flex-col justify-center gap-6'>
+        <Card>
+          <CardHeader className='text-center'>
+            <CardTitle className='text-xl'>Welcome back</CardTitle>
+            <CardDescription>Login with your Email</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className='space-y-8'
+              >
+                <FormField
+                  control={form.control}
+                  name='email'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='example@example.com'
+                          data-cy='email-input'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='password'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='password'
+                          type='password'
+                          data-cy='password-input'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <Button type='submit' className='w-full' disabled={isPending}>
-                Sign up
-              </Button>
-
-              <div className='text-center text-sm'>
-                {`Don't`} have an account?{' '}
-                <a
-                  href={PAGE_ROUTES.signUp}
-                  className='underline underline-offset-4'
-                >
+                <Button type='submit' className='w-full' disabled={isPending}>
                   Sign up
-                </a>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-      {/* <div className='text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  '>
+                </Button>
+
+                <div className='text-center text-sm'>
+                  {`Don't`} have an account?{' '}
+                  <a
+                    href={PAGE_ROUTES.SIGN_UP}
+                    className='underline underline-offset-4'
+                  >
+                    Sign up
+                  </a>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+        {/* <div className='text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  '>
         By clicking continue, you agree to our <a href='#'>Terms of Service</a>{' '}
         and <a href='#'>Privacy Policy</a>.
       </div> */}
-    </div>
+      </div>
+    </>
   );
 }
