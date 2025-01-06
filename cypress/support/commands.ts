@@ -55,7 +55,10 @@ Cypress.Commands.add('login', (email: string, password: string) => {
 });
 
 Cypress.Commands.add('loginTestId', () => {
-  cy.login('test@test.com', '123123');
+  cy.login(
+    Cypress.env('CYPRESS_TEST_EMAIL'),
+    Cypress.env('CYPRESS_TEST_PASSWORD'),
+  );
   cy.url().should('eq', Cypress.config().baseUrl + '/');
   cy.getCookie('authjs.session-token').should('exist');
 });
