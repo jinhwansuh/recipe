@@ -117,7 +117,7 @@ export default function SignIn() {
                 <div className='text-center text-sm'>
                   {`Don't`} have an account?{' '}
                   <a
-                    href={PAGE_ROUTES.signUp}
+                    href={PAGE_ROUTES.SIGN_UP}
                     className='underline underline-offset-4'
                   >
                     Sign up

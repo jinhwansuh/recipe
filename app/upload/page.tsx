@@ -24,7 +24,7 @@ import {
   uploadRecipeSchema,
   UploadRecipeValue,
 } from '~/utils/validation/upload';
-import { Units } from '~/constants/unit';
+import { UNITS } from '~/constants/unit';
 
 export default function ProfileForm() {
   const { toast } = useToast();
@@ -188,7 +188,7 @@ export default function ProfileForm() {
                           value={field.value}
                           placeholder='Unit'
                         >
-                          {Units.map((unit) => (
+                          {UNITS.map((unit) => (
                             <SelectItem key={unit} value={unit}>
                               {unit}
                             </SelectItem>

@@ -143,7 +143,7 @@ export default function SignUp() {
                 <div className='text-center text-sm'>
                   Already have an account?{' '}
                   <a
-                    href={PAGE_ROUTES.signIn}
+                    href={PAGE_ROUTES.SIGN_IN}
                     className='underline underline-offset-4'
                   >
                     Sign In
