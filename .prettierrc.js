@@ -11,7 +11,10 @@ module.exports = {
   arrowParens: 'always',
   proseWrap: 'preserve',
   endOfLine: 'auto',
-  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
+  plugins: [
+    '@trivago/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
+  ],
   importOrder: [
     '^next$',
     '^next(.*)$',
@@ -19,6 +22,7 @@ module.exports = {
     '^react(.*)$',
     '^@react(.*)$',
     '<THIRD_PARTY_MODULES>',
+    '^~/lib(.*)$',
     '^~/components(.*)$',
     '^~/api(.*)$',
     '^~/features(.*)$',
