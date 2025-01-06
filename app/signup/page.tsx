@@ -58,96 +58,102 @@ export default function SignUp() {
   };
 
   return (
-    <div className='m-auto flex min-h-svh max-w-sm flex-col justify-center gap-6'>
+    <>
       {isPending && <FullScreenLoading />}
-      <Card>
-        <CardHeader className='text-center'>
-          <CardTitle className='text-xl'>Welcome back</CardTitle>
-          <CardDescription>Sign up with your Email</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-              <FormField
-                control={form.control}
-                name='username'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>name</FormLabel>
-                    <FormControl>
-                      <Input placeholder='username' {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>email</FormLabel>
-                    <FormControl>
-                      <Input placeholder='example@example.com' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='password'
-                        type='password'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='confirmPassword'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>confirm password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='password'
-                        type='password'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type='submit' className='w-full' disabled={isPending}>
-                Sign up
-              </Button>
 
-              <div className='text-center text-sm'>
-                Already have an account?{' '}
-                <a
-                  href={PAGE_ROUTES.signIn}
-                  className='underline underline-offset-4'
-                >
-                  Sign In
-                </a>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+      <div className='m-auto flex min-h-svh max-w-sm flex-col justify-center gap-6'>
+        <Card>
+          <CardHeader className='text-center'>
+            <CardTitle className='text-xl'>Welcome back</CardTitle>
+            <CardDescription>Sign up with your Email</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className='space-y-8'
+              >
+                <FormField
+                  control={form.control}
+                  name='username'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>name</FormLabel>
+                      <FormControl>
+                        <Input placeholder='username' {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        This is your public display name.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='email'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>email</FormLabel>
+                      <FormControl>
+                        <Input placeholder='example@example.com' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='password'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='password'
+                          type='password'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='confirmPassword'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>confirm password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='password'
+                          type='password'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type='submit' className='w-full' disabled={isPending}>
+                  Sign up
+                </Button>
+
+                <div className='text-center text-sm'>
+                  Already have an account?{' '}
+                  <a
+                    href={PAGE_ROUTES.signIn}
+                    className='underline underline-offset-4'
+                  >
+                    Sign In
+                  </a>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 }
