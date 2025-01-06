@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpUser } from '~/lib/actions/authActions';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -25,7 +26,6 @@ import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
 import { signupSchema, SignupValue } from '~/utils/validation/user';
 import { PAGE_ROUTES } from '~/constants/route';
-import { signUpUser } from '~/lib/actions/authActions';
 
 export default function SignUp() {
   const [isPending, setIsPending] = useState(false);
@@ -58,7 +58,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className='flex flex-col gap-6 m-auto min-h-svh justify-center max-w-sm'>
+    <div className='m-auto flex min-h-svh max-w-sm flex-col justify-center gap-6'>
       {isPending && <FullScreenLoading />}
       <Card>
         <CardHeader className='text-center'>

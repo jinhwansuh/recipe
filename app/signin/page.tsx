@@ -60,7 +60,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className='flex flex-col gap-6 m-auto min-h-svh justify-center max-w-sm'>
+    <div className='m-auto flex min-h-svh max-w-sm flex-col justify-center gap-6'>
       {isPending && <FullScreenLoading />}
       <Card>
         <CardHeader className='text-center'>

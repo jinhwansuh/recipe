@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { createAuthor } from '~/lib/actions/uploadActions';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -19,7 +20,6 @@ import {
   uploadAuthorSchema,
   UploadAuthorValue,
 } from '~/utils/validation/upload';
-import { createAuthor } from '~/lib/actions/uploadActions';
 
 export default function ProfileForm() {
   const [isPending, setIsPending] = useState(false);

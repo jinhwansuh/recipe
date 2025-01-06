@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, X } from 'lucide-react';
+import { createRecipe, getAuthors } from '~/lib/actions/uploadActions';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import SelectForm from '~/components/common/SelectForm/SelectForm';
 import { Button } from '~/components/ui/button';
@@ -24,7 +25,6 @@ import {
   UploadRecipeValue,
 } from '~/utils/validation/upload';
 import { Units } from '~/constants/unit';
-import { createRecipe, getAuthors } from '~/lib/actions/uploadActions';
 
 export default function ProfileForm() {
   const { toast } = useToast();
@@ -208,7 +208,7 @@ export default function ProfileForm() {
               }
               className='mt-2'
             >
-              <Plus className='h-4 w-4 mr-2' /> 재료 추가
+              <Plus className='mr-2 h-4 w-4' /> 재료 추가
             </Button>
           </div>
           <FormLabel>steps</FormLabel>
@@ -219,7 +219,7 @@ export default function ProfileForm() {
                   control={form.control}
                   name={`steps.${index}.description`}
                   render={({ field }) => (
-                    <FormItem className=' w-full'>
+                    <FormItem className='w-full'>
                       <FormControl>
                         <Input placeholder='description' {...field} />
                       </FormControl>
@@ -249,7 +249,7 @@ export default function ProfileForm() {
               onClick={() => appendStep({ description: '' })}
               className='mt-2'
             >
-              <Plus className='h-4 w-4 mr-2' /> 순서 추가
+              <Plus className='mr-2 h-4 w-4' /> 순서 추가
             </Button>
           </div>
 
