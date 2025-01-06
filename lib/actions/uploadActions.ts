@@ -54,6 +54,7 @@ export const createRecipe = async (data: UploadRecipeValue) => {
       data: {
         title: parseData.data.title,
         tags: parseData.data.tags.split(' '),
+        serving: parseData.data.serving,
         thumbnailUrl: parseData.data.imageUrl,
         ingredients: parseData.data.ingredients,
         youtubeUrl: parseData.data.videoUrl,

@@ -37,6 +37,7 @@ export default function ProfileForm() {
     defaultValues: {
       title: '',
       tags: '',
+      serving: 0,
       ingredients: [{ name: '', amount: 0, unit: '' }],
       steps: [
         {
@@ -82,13 +83,13 @@ export default function ProfileForm() {
   }, []);
 
   const onSubmit = async (values: UploadRecipeValue) => {
-    console.log(values);
     try {
       setIsPending(true);
       await createRecipe(values);
       toast({
         description: 'upload successful',
       });
+      form.reset();
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -128,6 +129,20 @@ export default function ProfileForm() {
                 <FormLabel>any tags</FormLabel>
                 <FormControl>
                   <Input placeholder='tags' {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='serving'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>servings {'(number)'}</FormLabel>
+                <FormControl>
+                  <Input placeholder='serving' {...field} type='number' />
                 </FormControl>
 
                 <FormMessage />

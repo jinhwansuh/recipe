@@ -4,6 +4,7 @@ export const uploadRecipeSchema = z.object({
   title: z.string().min(2, {
     message: 'recipe title must be at least 2 characters.',
   }),
+  serving: z.coerce.number().min(0.0001, { message: 'serving is required' }),
   tags: z.string().min(2, {
     message: 'tags must be at least 2 characters.',
   }),
