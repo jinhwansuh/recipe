@@ -36,9 +36,6 @@
 //   }
 // }
 
-/**
- * @description data-cy로 설정된 엘리먼트를 쉽게 찾을 수 있는 커스텀 커맨드
- */
 Cypress.Commands.add('getByCy', (text) => {
   return cy.get(`[data-cy=${text}]`);
 });
@@ -50,15 +47,15 @@ Cypress.on('uncaught:exception', (err) => {
   }
 });
 
-/**
- * test ID로 로그인하는 커맨드
- */
-Cypress.Commands.add('login', () => {
-  cy.visit('/signin');
-  cy.getByCy('email-input').type('test@test.com');
-  cy.getByCy('password-input').type(`${'123123'}{enter}`, { log: false });
+Cypress.Commands.add('login', (email: string, password: string) => {
+  cy.getByCy('email-input').type(email);
+  cy.getByCy('password-input').type(`${password}{enter}`, { log: false });
   cy.intercept('GET', 'api/auth/session').as('session');
   cy.wait('@session');
+});
+
+Cypress.Commands.add('loginTestId', () => {
+  cy.login('test@test.com', '123123');
   cy.url().should('eq', Cypress.config().baseUrl + '/');
   cy.getCookie('authjs.session-token').should('exist');
 });
