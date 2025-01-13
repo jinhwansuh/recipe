@@ -1,14 +1,14 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
-
-export default function SearchPage() {
-  const query = useSearchParams();
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ query: string }>;
+}) {
+  const query = (await searchParams).query;
 
   return (
     <>
       <div>search</div>
-      <div>{query.get('query')}</div>
+      <div>{query}</div>
     </>
   );
 }
