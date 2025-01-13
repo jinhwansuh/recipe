@@ -1,6 +1,5 @@
-import { Lock } from 'lucide-react';
 import { getManyRecipe } from '~/lib/actions/recipeActions';
-import SearchHeader from '~/components/Header/SearchHeader';
+import ProfileHeader from '~/components/Header/ProfileHeader';
 import SearchInput from '~/components/common/SearchInput/SearchInput';
 
 export default async function Home() {
@@ -9,8 +8,7 @@ export default async function Home() {
 
   return (
     <>
-      <SearchHeader />
-
+      <ProfileHeader />
       <SearchInput />
 
       <main>
