@@ -21,7 +21,7 @@ import {
   UploadAuthorValue,
 } from '~/utils/validation/upload';
 
-export default function ProfileForm() {
+export default function UploadAuthorPage() {
   const [isPending, setIsPending] = useState(false);
   const { toast } = useToast();
   const form = useForm<UploadAuthorValue>({

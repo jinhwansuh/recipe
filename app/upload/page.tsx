@@ -26,7 +26,7 @@ import {
 } from '~/utils/validation/upload';
 import { UNITS } from '~/constants/unit';
 
-export default function ProfileForm() {
+export default function UploadRecipePage() {
   const { toast } = useToast();
   const [isPending, setIsPending] = useState(false);
   const [authors, setAuthors] = useState<
