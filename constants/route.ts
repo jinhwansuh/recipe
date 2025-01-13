@@ -4,4 +4,5 @@ export const PAGE_ROUTES = {
   SIGN_UP: '/signup',
   UPLOAD_RECIPE: '/upload',
   UPLOAD_AUTHOR: '/upload/author',
+  SEARCH: '/search',
 } as const;
