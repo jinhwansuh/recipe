@@ -7,7 +7,6 @@ import { signupSchema, SignupValue } from '~/utils/validation/user';
 import { signOut as nextAuthSignOut } from '~/auth';
 
 export const signOut = async () => {
-  console.log('signOut');
   await nextAuthSignOut();
   revalidatePath('/');
 };

@@ -4,7 +4,6 @@ import SearchInput from '~/components/common/SearchInput/SearchInput';
 
 export default async function Home() {
   const recipes = await getManyRecipe();
-  console.log(recipes);
 
   return (
     <>
