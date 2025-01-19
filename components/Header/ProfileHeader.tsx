@@ -53,7 +53,7 @@ export default async function SearchHeader() {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className='w-30'>
               <div onClick={handleSignOutClick}>Sign out</div>
             </PopoverContent>
           </Popover>

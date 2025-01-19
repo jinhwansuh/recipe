@@ -1,9 +1,11 @@
+import Link from 'next/link';
 import { getManyAuthor } from '~/lib/actions/authorActions';
 import { getMainPageRecipe } from '~/lib/actions/recipeActions';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import SearchInput from '~/components/common/SearchInput/SearchInput';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Card, CardContent } from '~/components/ui/card';
+import { PAGE_ROUTES } from '~/constants/route';
 
 export default async function Home() {
   const recipes = await getMainPageRecipe();
@@ -20,13 +22,14 @@ export default async function Home() {
             Recipes
           </h2>
           {recipes.map((recipe) => (
-            <div
+            <Link
               key={recipe.id}
-              className='flex cursor-pointer justify-between'
+              href={`${PAGE_ROUTES.RECIPE}/${recipe.id}`}
+              className='flex justify-between'
             >
               <p>{recipe.title}</p>
               <div>{recipe.author.name}</div>
-            </div>
+            </Link>
           ))}
         </section>
 
