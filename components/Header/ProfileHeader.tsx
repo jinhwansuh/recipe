@@ -2,6 +2,19 @@ import Link from 'next/link';
 import { signOut } from '~/lib/actions/authActions';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from '~/components/ui/menubar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '~/components/ui/popover';
 import { PAGE_ROUTES } from '~/constants/route';
 import { auth } from '~/auth';
 
@@ -18,13 +31,32 @@ export default async function SearchHeader() {
       <Link href={PAGE_ROUTES.MAIN}>RecipeHub</Link>
 
       <div className='flex items-center gap-4'>
-        {/* <div>Keywords</div>
-        <div>About</div> */}
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>Upload</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>
+                <Link href={PAGE_ROUTES.UPLOAD_RECIPE}>Recipe</Link>
+              </MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem>
+                <Link href={PAGE_ROUTES.UPLOAD_AUTHOR}>Author</Link>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
         {session ? (
-          <Avatar onClick={handleSignOutClick}>
-            <AvatarImage src='https://github.com/shadcn.png' />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <Popover>
+            <PopoverTrigger>
+              <Avatar>
+                <AvatarImage src='https://github.com/shadcn.png' />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div onClick={handleSignOutClick}>Sign out</div>
+            </PopoverContent>
+          </Popover>
         ) : (
           <Link href={PAGE_ROUTES.SIGN_IN}>
             <Button>Signin</Button>
