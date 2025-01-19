@@ -126,7 +126,10 @@ export default function UploadRecipePage() {
             name='tags'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>any tags</FormLabel>
+                <FormLabel>
+                  any tags{' '}
+                  {`{Tags are saved based on commas (e.g., 'tag1, tag2, tag3')}`}
+                </FormLabel>
                 <FormControl>
                   <Input placeholder='tags' {...field} />
                 </FormControl>
