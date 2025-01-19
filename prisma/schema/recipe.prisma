@@ -8,6 +8,7 @@ model Recipe {
   youtubeUrl   String?
   steps        String[]
   authorID     String
+  viewCount    Int       @default(0)
   comments     Comment[]
   likes        Like[]
   author       Author    @relation(fields: [authorID], references: [id])
