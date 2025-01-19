@@ -53,13 +53,14 @@ export const createRecipe = async (data: UploadRecipeValue) => {
     await prisma.recipe.create({
       data: {
         title: parseData.data.title,
-        tags: parseData.data.tags.split(' '),
+        tags: parseData.data.tags.split(',').map((el) => el.trim()),
         serving: parseData.data.serving,
         thumbnailUrl: parseData.data.imageUrl,
         ingredients: parseData.data.ingredients,
         youtubeUrl: parseData.data.videoUrl,
         steps: parseData.data.steps.map((step) => step.description),
         authorID: parseData.data.recipeAuthor,
+        userId: session.user.id,
       },
     });
   } catch (error: any) {
