@@ -2,7 +2,7 @@
 
 import prisma from '~/lib/prisma';
 
-export const getManyRecipe = async () => {
+export const getMainPageRecipe = async () => {
   try {
     const response = await prisma.recipe.findMany({
       select: {
