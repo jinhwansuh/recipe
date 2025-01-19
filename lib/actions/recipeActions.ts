@@ -34,6 +34,8 @@ export const getRecipe = async (recipeId: string) => {
     });
 
     after(async () => {
+      if (!response) return;
+      if (process.env.NODE_ENV === 'development') return;
       await prisma.recipe.update({
         where: { id: recipeId },
         data: { viewCount: { increment: 1 } },
