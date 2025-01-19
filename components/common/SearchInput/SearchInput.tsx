@@ -37,7 +37,7 @@ export default function SearchInput() {
               </div>
               <FormControl>
                 <Input
-                  className='pl-8'
+                  className='h-12 pl-8'
                   placeholder='Search by ingredient or recipe name'
                   data-cy='search-input'
                   {...field}
