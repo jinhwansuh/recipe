@@ -7,6 +7,7 @@ import { Search } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { searchSchema, SearchValue } from '~/utils/validation/search';
+import { SearchQueryKey } from '~/constants/key';
 import { PAGE_ROUTES } from '~/constants/route';
 
 export default function SearchInput() {
@@ -20,7 +21,7 @@ export default function SearchInput() {
   });
 
   function onSubmit(data: SearchValue) {
-    router.push(`${PAGE_ROUTES.SEARCH}?query=${data.searchValue}`);
+    router.push(`${PAGE_ROUTES.SEARCH}?${SearchQueryKey}=${data.searchValue}`);
   }
 
   return (
@@ -38,6 +39,7 @@ export default function SearchInput() {
                 <Input
                   className='pl-8'
                   placeholder='Search by ingredient or recipe name'
+                  data-cy='search-input'
                   {...field}
                 />
               </FormControl>
