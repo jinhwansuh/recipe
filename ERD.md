@@ -57,15 +57,17 @@ erDiagram
 "Recipe" {
   String id PK
   String title
-  Float serving
-  String tags
-  String thumbnailUrl "nullable"
-  Json ingredients
-  String youtubeUrl "nullable"
-  String steps
   String authorID FK
   DateTime createdAt
   DateTime updatedAt
+  String youtubeUrl "nullable"
+  Json ingredients
+  String steps
+  String tags
+  String thumbnailUrl "nullable"
+  Float serving
+  Int viewCount
+  String userId FK
 }
 "Author" {
   String id PK
@@ -98,6 +100,7 @@ erDiagram
 "Session" }o--|| "User" : user
 "Authenticator" }o--|| "User" : user
 "Recipe" }o--|| "Author" : author
+"Recipe" }o--|| "User" : user
 "Comment" }o--|| "Recipe" : recipe
 "Comment" }o--o| "User" : user
 "Like" }o--|| "Recipe" : recipe
@@ -167,15 +170,17 @@ erDiagram
 **Properties**
   - `id`: 
   - `title`: 
-  - `serving`: 
-  - `tags`: 
-  - `thumbnailUrl`: 
-  - `ingredients`: 
-  - `youtubeUrl`: 
-  - `steps`: 
   - `authorID`: 
   - `createdAt`: 
   - `updatedAt`: 
+  - `youtubeUrl`: 
+  - `ingredients`: 
+  - `steps`: 
+  - `tags`: 
+  - `thumbnailUrl`: 
+  - `serving`: 
+  - `viewCount`: 
+  - `userId`: 
 
 ### `Author`
 
