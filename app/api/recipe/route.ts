@@ -1,11 +1,64 @@
+import { after, NextRequest } from 'next/server';
 import prisma from '~/lib/prisma';
 import { verifySession } from '~/lib/session';
+import { stringSchema } from '~/utils/validation/common';
 import {
   uploadRecipeSchema,
   UploadRecipeValue,
 } from '~/utils/validation/upload';
 
-export const GET = async () => {};
+export type Recipe = {
+  id: string;
+  title: string;
+  authorID: string;
+  createdAt: Date;
+  updatedAt: Date;
+  youtubeUrl: string | null;
+  ingredients: UploadRecipeValue['ingredients'];
+  steps: string[];
+  tags: string[];
+  thumbnailUrl: string | null;
+  serving: number;
+  viewCount: number;
+  userId: string;
+};
+
+export type GetRecipeApi = Recipe;
+
+export const GET = async (request: NextRequest) => {
+  const params = request.nextUrl.searchParams;
+  const recipeId = params.get('recipeId');
+  const parseData = stringSchema.safeParse(recipeId);
+
+  if (!parseData.success) {
+    return new Response(`${parseData.error.errors[0].message}`, {
+      status: 400,
+    });
+  }
+
+  try {
+    const response = await prisma.recipe.findUnique({
+      where: {
+        id: parseData.data,
+      },
+    });
+
+    after(async () => {
+      if (!response) return;
+      if (process.env.NODE_ENV === 'development') return;
+      await prisma.recipe.update({
+        where: { id: parseData.data },
+        data: { viewCount: { increment: 1 } },
+      });
+    });
+
+    return new Response(JSON.stringify(response), {
+      status: 200,
+    });
+  } catch (error: any) {
+    return new Response(`${error.message || 'server error'}`, { status: 500 });
+  }
+};
 
 export const POST = async (request: Request) => {
   const res: UploadRecipeValue = await request.json();
