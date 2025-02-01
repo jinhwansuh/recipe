@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, X } from 'lucide-react';
-import { createRecipe, getAuthors } from '~/lib/actions/uploadActions';
+import { http } from '~/lib/http';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import SelectForm from '~/components/common/SelectForm/SelectForm';
 import { Button } from '~/components/ui/button';
@@ -25,13 +25,12 @@ import {
   UploadRecipeValue,
 } from '~/utils/validation/upload';
 import { UNITS } from '~/constants/unit';
+import { GetAuthorApi } from '../api/author/route';
 
 export default function UploadRecipePage() {
   const { toast } = useToast();
   const [isPending, setIsPending] = useState(false);
-  const [authors, setAuthors] = useState<
-    Awaited<ReturnType<typeof getAuthors>>
-  >([]);
+  const [authors, setAuthors] = useState<GetAuthorApi>([]);
   const form = useForm<UploadRecipeValue>({
     resolver: zodResolver(uploadRecipeSchema),
     defaultValues: {
@@ -70,7 +69,7 @@ export default function UploadRecipePage() {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const authors = await getAuthors();
+        const authors = await http<GetAuthorApi>('/api/author');
         setAuthors(authors);
       } catch (error: any) {
         toast({
@@ -85,7 +84,10 @@ export default function UploadRecipePage() {
   const onSubmit = async (values: UploadRecipeValue) => {
     try {
       setIsPending(true);
-      await createRecipe(values);
+      await fetch('/api/recipe', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      });
       toast({
         description: 'upload successful',
       });
