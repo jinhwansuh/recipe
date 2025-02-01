@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { getManyAuthor } from '~/lib/actions/authorActions';
-import { getMainPageRecipe } from '~/lib/actions/recipeActions';
+import { http } from '~/lib/fetch';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import SearchInput from '~/components/common/SearchInput/SearchInput';
 import Text from '~/components/common/Text/Text';
@@ -9,10 +8,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Card, CardContent } from '~/components/ui/card';
 import { Separator } from '~/components/ui/separator';
 import { PAGE_ROUTES } from '~/constants/route';
+import { GetMainApi } from './api/main/route';
 
 export default async function Home() {
-  const recipes = await getMainPageRecipe();
-  const authors = await getManyAuthor();
+  const data = await http<GetMainApi>('/api/main');
 
   return (
     <>
@@ -31,7 +30,7 @@ export default async function Home() {
             Recipes
           </Text>
           <div className='flex flex-col py-4'>
-            {recipes.map((recipe, index) => (
+            {data.recipes.map((recipe, index) => (
               <Fragment key={recipe.id}>
                 <Link
                   href={`${PAGE_ROUTES.RECIPE}/${recipe.id}`}
@@ -40,7 +39,7 @@ export default async function Home() {
                   <p>{recipe.title}</p>
                   <div>{recipe.author.name}</div>
                 </Link>
-                {recipes.length - 1 !== index && <Separator />}
+                {data.recipes.length - 1 !== index && <Separator />}
               </Fragment>
             ))}
           </div>
@@ -57,7 +56,7 @@ export default async function Home() {
             Authors
           </Text>
           <div className='flex flex-wrap gap-4 py-4'>
-            {authors.map((author) => (
+            {data.authors.map((author) => (
               <Card key={author.id} className='w-60 cursor-pointer p-4'>
                 <CardContent className='flex items-center gap-4 p-0'>
                   <Avatar>
