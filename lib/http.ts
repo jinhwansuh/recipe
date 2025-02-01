@@ -3,7 +3,7 @@ export const http = async <T>(
   init?: Parameters<typeof fetch>[1],
 ): Promise<T> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL}${input}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}${input}`,
     init,
   );
   return response.json() as Promise<T>;
