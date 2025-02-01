@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { http } from '~/lib/fetch';
+import { http } from '~/lib/http';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import SearchInput from '~/components/common/SearchInput/SearchInput';
 import Text from '~/components/common/Text/Text';
