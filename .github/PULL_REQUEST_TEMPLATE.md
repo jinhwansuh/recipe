@@ -1,6 +1,6 @@
 ### Issue Number
 
-close: #
+closes: #
 
 ## 설명, 작업 내역
 

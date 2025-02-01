@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createAuthor } from '~/lib/actions/uploadActions';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -37,7 +36,10 @@ export default function UploadAuthorPage() {
   const onSubmit = async (values: UploadAuthorValue) => {
     try {
       setIsPending(true);
-      await createAuthor(values);
+      await fetch('/api/author', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      });
       toast({
         description: 'upload successful',
       });

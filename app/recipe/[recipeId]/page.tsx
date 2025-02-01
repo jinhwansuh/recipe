@@ -1,6 +1,9 @@
-import { getRecipe } from '~/lib/actions/recipeActions';
+import { notFound } from 'next/navigation';
+import { http } from '~/lib/http';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import Text from '~/components/common/Text/Text';
+import { RecipeQueryKey } from '~/constants/key';
+import { GetRecipeApi } from '~/app/api/recipe/route';
 
 export default async function Recipe({
   params,
@@ -8,7 +11,11 @@ export default async function Recipe({
   params: Promise<{ recipeId: string }>;
 }) {
   const id = (await params).recipeId;
-  const data = await getRecipe(id);
+  const data = await http<GetRecipeApi>(`/api/recipe?${RecipeQueryKey}=${id}`);
+
+  if (!data) {
+    notFound();
+  }
 
   return (
     <>
@@ -56,13 +63,7 @@ export default async function Recipe({
             Ingredients
           </Text>
           <div>
-            {(
-              data?.ingredients as {
-                name: string;
-                amount: string;
-                unit: string;
-              }[]
-            ).map((ingredient, index) => (
+            {(data?.ingredients).map((ingredient, index) => (
               <div key={index} className='flex gap-4'>
                 <div>{ingredient.name}</div>
                 <div>{ingredient.amount}</div>
