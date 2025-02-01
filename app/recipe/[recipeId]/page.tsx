@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { http } from '~/lib/http';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import Text from '~/components/common/Text/Text';
@@ -10,6 +11,10 @@ export default async function Recipe({
 }) {
   const id = (await params).recipeId;
   const data = await http<GetRecipeApi>(`/api/recipe?recipeId=${id}`);
+
+  if (!data) {
+    notFound();
+  }
 
   return (
     <>
