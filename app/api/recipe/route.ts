@@ -7,6 +7,7 @@ import {
   uploadRecipeSchema,
   UploadRecipeValue,
 } from '~/utils/validation/upload';
+import { RecipeQueryKey } from '~/constants/key';
 
 export type Recipe = {
   id: string;
@@ -28,7 +29,7 @@ export type GetRecipeApi = Recipe;
 
 export const GET = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
-  const recipeId = params.get('recipeId');
+  const recipeId = params.get(RecipeQueryKey);
   const parseData = stringSchema.safeParse(recipeId);
 
   if (!parseData.success) {

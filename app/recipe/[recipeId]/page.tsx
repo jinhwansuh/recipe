@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { http } from '~/lib/http';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import Text from '~/components/common/Text/Text';
+import { RecipeQueryKey } from '~/constants/key';
 import { GetRecipeApi } from '~/app/api/recipe/route';
 
 export default async function Recipe({
@@ -10,7 +11,7 @@ export default async function Recipe({
   params: Promise<{ recipeId: string }>;
 }) {
   const id = (await params).recipeId;
-  const data = await http<GetRecipeApi>(`/api/recipe?recipeId=${id}`);
+  const data = await http<GetRecipeApi>(`/api/recipe?${RecipeQueryKey}=${id}`);
 
   if (!data) {
     notFound();
