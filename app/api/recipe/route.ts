@@ -1,4 +1,5 @@
 import { after, NextRequest } from 'next/server';
+import { errorResponse } from '~/lib/http';
 import prisma from '~/lib/prisma';
 import { verifySession } from '~/lib/session';
 import { stringSchema } from '~/utils/validation/common';
@@ -56,7 +57,7 @@ export const GET = async (request: NextRequest) => {
       status: 200,
     });
   } catch (error: any) {
-    return new Response(`${error.message || 'server error'}`, { status: 500 });
+    return errorResponse(error);
   }
 };
 
@@ -90,6 +91,6 @@ export const POST = async (request: Request) => {
       status: 201,
     });
   } catch (error: any) {
-    return new Response(`${error.message || 'server error'}`, { status: 500 });
+    return errorResponse(error);
   }
 };

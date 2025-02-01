@@ -8,3 +8,9 @@ export const http = async <T>(
   );
   return response.json() as Promise<T>;
 };
+
+export const errorResponse = (error: any) => {
+  return new Response(`${error.message || 'server error'}`, {
+    status: error.code || 500,
+  });
+};

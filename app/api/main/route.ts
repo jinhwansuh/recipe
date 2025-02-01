@@ -1,3 +1,4 @@
+import { errorResponse } from '~/lib/http';
 import prisma from '~/lib/prisma';
 
 export type Recipe = {
@@ -55,6 +56,6 @@ export const GET = async () => {
       status: 200,
     });
   } catch (error: any) {
-    return new Response(`${error.message || 'server error'}`, { status: 500 });
+    return errorResponse(error);
   }
 };

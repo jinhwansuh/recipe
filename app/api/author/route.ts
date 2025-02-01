@@ -1,3 +1,4 @@
+import { errorResponse } from '~/lib/http';
 import prisma from '~/lib/prisma';
 import { verifySession } from '~/lib/session';
 import {
@@ -25,7 +26,7 @@ export const GET = async () => {
       status: 200,
     });
   } catch (error: any) {
-    return new Response(`${error.message || 'server error'}`, { status: 500 });
+    return errorResponse(error);
   }
 };
 
@@ -54,6 +55,6 @@ export const POST = async (request: Request) => {
       status: 201,
     });
   } catch (error: any) {
-    return new Response(`${error.message || 'server error'}`, { status: 500 });
+    return errorResponse(error);
   }
 };
