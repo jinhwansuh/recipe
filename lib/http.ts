@@ -7,7 +7,14 @@ export const http = async <T>(
   input: Parameters<typeof fetch>[0],
   init?: Parameters<typeof fetch>[1],
 ): Promise<T> => {
-  const response = await fetch(`${API_BASE_URL}${input}`, init);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${input}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...init,
+  });
+
+  if (!response.ok) throw new Error(response.statusText);
   return response.json() as Promise<T>;
 };
 
