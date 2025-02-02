@@ -1,10 +1,10 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { http } from '~/lib/http';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -28,6 +28,7 @@ import { signinSchema, SignInValue } from '~/utils/validation/user';
 import { PAGE_ROUTES } from '~/constants/route';
 
 export default function SignIn() {
+  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const { toast } = useToast();
   const form = useForm<SignInValue>({
@@ -39,24 +40,23 @@ export default function SignIn() {
   });
 
   const onSubmit = async (values: SignInValue) => {
-    setIsPending(true);
-    const data = await signIn('credentials', {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
-
-    if (!data?.error) {
-      redirect('/');
-    }
-
-    if (data?.error) {
+    try {
+      setIsPending(true);
+      const response = await http<{ code: number }>('/api/auth/signin', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      });
+      if (response.code === 1) {
+        router.replace('/');
+      }
+    } catch (e: any) {
       toast({
         variant: 'destructive',
-        description: data?.code || 'server error',
+        description: e.message || 'server error',
       });
+    } finally {
+      setIsPending(false);
     }
-    setIsPending(false);
   };
 
   return (
