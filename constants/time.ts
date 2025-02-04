@@ -8,3 +8,5 @@ export const HOUR: BaseTime = (time) => 60 * MINUTE(time);
 export const DAY: BaseTime = (time) => 24 * HOUR(time);
 export const WEEK: BaseTime = (time) => 7 * DAY(time);
 export const MONTH: BaseTime = (time) => 30 * DAY(time);
+
+export const TokenExpiredTime = 1 * HOUR({ base: 'ms' });
