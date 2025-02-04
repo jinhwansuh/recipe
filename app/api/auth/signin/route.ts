@@ -1,10 +1,10 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import { encrypt } from '~/lib/crypto';
 import prisma from '~/lib/prisma';
-import { encrypt } from '~/lib/session';
 import { signinSchema } from '~/utils/validation/user';
 import { AuthSessionKey } from '~/constants/key';
+import { TokenExpiredTime } from '~/constants/time';
 import { ErrorResponse } from '../../lib/common';
 
 export type UserSessionType = {
@@ -44,7 +44,7 @@ export const POST = async (request: Request) => {
     return ErrorResponse(`Invalid password`, 400);
   }
 
-  const expires = new Date(Date.now() + 1);
+  const expires = new Date(Date.now() + TokenExpiredTime);
   const user: UserSessionType = {
     name: userResponse.name,
     id: userResponse.id,
@@ -53,15 +53,8 @@ export const POST = async (request: Request) => {
     role: userResponse.role,
     provider: 'email',
   };
+
   const session = await encrypt({ user, expires });
-  // const cookieStore = await cookies();
-  // cookieStore.set(AuthSessionKey, session, {
-  //   httpOnly: true,
-  //   secure: true,
-  //   expires: expires,
-  //   sameSite: 'lax',
-  //   path: '/',
-  // });
   const response = NextResponse.json(
     { code: 1 },
     {
@@ -71,7 +64,7 @@ export const POST = async (request: Request) => {
 
   response.cookies.set(AuthSessionKey, session, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     expires: expires,
     sameSite: 'lax',
     path: '/',
