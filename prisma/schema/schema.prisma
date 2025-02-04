@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
+  previewFeatures = ["prismaSchemaFolder", "driverAdapters"]
 }
 
 generator markdown {
@@ -10,7 +10,6 @@ generator markdown {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
