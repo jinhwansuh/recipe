@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import { commonCookieOptions } from '~/lib/cookie';
 import { encrypt } from '~/lib/crypto';
 import prisma from '~/lib/prisma';
 import { signinSchema } from '~/utils/validation/user';
@@ -63,11 +64,8 @@ export const POST = async (request: Request) => {
   );
 
   response.cookies.set(AuthSessionKey, session, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
     expires: expires,
-    sameSite: 'lax',
-    path: '/',
+    ...commonCookieOptions,
   });
 
   return response;

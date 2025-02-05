@@ -6,6 +6,7 @@ import { cache } from 'react';
 import { AuthSessionKey, EntryUserKey } from '~/constants/key';
 import { TokenExpiredTime } from '~/constants/time';
 import { UserSessionType } from '~/app/api/auth/signin/route';
+import { commonCookieOptions } from './cookie';
 import { decrypt, encrypt } from './crypto';
 import { CustomError } from './error';
 import prisma from './prisma';
@@ -17,10 +18,7 @@ export const createSession = async (request: NextRequest) => {
     response.cookies.set({
       name: EntryUserKey,
       value: 'on',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
+      ...commonCookieOptions,
     });
     return response;
   }
@@ -43,36 +41,26 @@ export const createSession = async (request: NextRequest) => {
     response.cookies.set({
       name: EntryUserKey,
       value: 'on',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
+      ...commonCookieOptions,
     });
     return response;
   }
 
-  const user: any = {
+  const user: UserSessionType = {
     ...userResponse,
     provider: 'email',
   };
-  const expiresAt = new Date(Date.now() + TokenExpiredTime);
-  user.expires = expiresAt;
+  const expires = new Date(Date.now() + TokenExpiredTime);
   response.cookies.set({
     name: EntryUserKey,
     value: 'on',
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
+    ...commonCookieOptions,
   });
   response.cookies.set({
     name: AuthSessionKey,
-    value: await encrypt(user),
-    httpOnly: true,
-    expires: user.expires as Date,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
+    value: await encrypt({ user, expires }),
+    expires: expires,
+    ...commonCookieOptions,
   });
 
   return response;
@@ -97,11 +85,8 @@ export const updateSession = async (request: NextRequest) => {
   response.cookies.set({
     name: AuthSessionKey,
     value: await encrypt(parsedSession),
-    httpOnly: true,
     expires: parsedSession.expires as Date,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
+    ...commonCookieOptions,
   });
   return response;
 };
