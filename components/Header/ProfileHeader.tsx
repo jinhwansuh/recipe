@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { signOut } from '~/lib/actions/authActions';
+import { signOut } from '~/lib/actions/auth';
+import { getUser } from '~/lib/session';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
 import {
@@ -16,10 +17,9 @@ import {
   PopoverTrigger,
 } from '~/components/ui/popover';
 import { PAGE_ROUTES } from '~/constants/route';
-import { auth } from '~/auth';
 
 export default async function SearchHeader() {
-  const session = await auth();
+  const session = await getUser();
 
   const handleSignOutClick = async () => {
     'use server';

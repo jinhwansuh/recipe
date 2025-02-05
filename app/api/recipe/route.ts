@@ -1,5 +1,4 @@
 import { after, NextRequest } from 'next/server';
-import { errorResponse } from '~/lib/http';
 import prisma from '~/lib/prisma';
 import { verifySession } from '~/lib/session';
 import { stringSchema } from '~/utils/validation/common';
@@ -8,6 +7,7 @@ import {
   UploadRecipeValue,
 } from '~/utils/validation/upload';
 import { RecipeQueryKey } from '~/constants/key';
+import { ErrorResponse } from '../lib/common';
 
 export type Recipe = {
   id: string;
@@ -58,18 +58,15 @@ export const GET = async (request: NextRequest) => {
       status: 200,
     });
   } catch (error: any) {
-    return errorResponse(error);
+    return ErrorResponse(error.message, 500);
   }
 };
 
 export const POST = async (request: Request) => {
   const res: UploadRecipeValue = await request.json();
   const parseData = uploadRecipeSchema.safeParse(res);
-
   if (!parseData.success) {
-    return new Response(`${parseData.error.errors[0].message}`, {
-      status: 400,
-    });
+    return ErrorResponse(parseData.error.errors[0].message, 400);
   }
 
   try {
@@ -85,13 +82,13 @@ export const POST = async (request: Request) => {
         youtubeUrl: parseData.data.videoUrl,
         steps: parseData.data.steps.map((step) => step.description),
         authorID: parseData.data.recipeAuthor,
-        userId: session.user.id,
+        userId: session.user.user.id,
       },
     });
     return new Response(JSON.stringify({ code: 1 }), {
       status: 201,
     });
   } catch (error: any) {
-    return errorResponse(error);
+    return ErrorResponse(error.message || error.code, 500);
   }
 };

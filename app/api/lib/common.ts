@@ -1,6 +1,6 @@
 export const ErrorResponse = async (message: string, code: number) => {
   return new Response(null, {
-    status: code,
-    statusText: message,
+    status: typeof code === 'number' ? code : 500,
+    statusText: typeof message === 'string' ? message : 'server error',
   });
 };

@@ -1,10 +1,10 @@
-import { errorResponse } from '~/lib/http';
 import prisma from '~/lib/prisma';
 import { verifySession } from '~/lib/session';
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
 } from '~/utils/validation/upload';
+import { ErrorResponse } from '../lib/common';
 
 type Author = {
   id: string;
@@ -26,7 +26,7 @@ export const GET = async () => {
       status: 200,
     });
   } catch (error: any) {
-    return errorResponse(error);
+    return ErrorResponse(error.message, 500);
   }
 };
 
@@ -55,6 +55,6 @@ export const POST = async (request: Request) => {
       status: 201,
     });
   } catch (error: any) {
-    return errorResponse(error);
+    return ErrorResponse(error.message, 500);
   }
 };
