@@ -1,7 +1,9 @@
 export const API_BASE_URL =
-  process.env.NODE_ENV === 'production'
-    ? process.env.NEXT_PUBLIC_BASE_URL
-    : process.env.NEXT_PUBLIC_BASE_URL;
+  process.env.VERCEL_ENV === 'production'
+    ? `https://recipe-k.vercel.app`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BASE_URL;
 
 export const http = async <T>(
   input: Parameters<typeof fetch>[0],
