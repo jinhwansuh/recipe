@@ -78,6 +78,11 @@ export const createSession = async (request: NextRequest) => {
   return response;
 };
 
+export const deleteSession = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete(AuthSessionKey);
+};
+
 export const updateSession = async (request: NextRequest) => {
   const session = request.cookies.get(AuthSessionKey)?.value;
   if (!session) return null;
@@ -113,13 +118,8 @@ export const verifySession = cache(async () => {
     throw new CustomError('not authorized', 401);
   }
 
-  return { isAuth: true, user: session as UserSessionType };
+  return { isAuth: true, user: session as { user: UserSessionType } };
 });
-
-export const deleteSession = async () => {
-  const cookieStore = await cookies();
-  cookieStore.delete(AuthSessionKey);
-};
 
 export const getUser = cache(async () => {
   try {
@@ -129,4 +129,13 @@ export const getUser = cache(async () => {
   } catch {
     return null;
   }
+});
+
+export const verifyAdmin = cache(async () => {
+  const userData = await verifySession();
+  if (!userData.isAuth || userData.user.user.role !== 'ADMIN') {
+    throw new CustomError('not authorized', 401);
+  }
+
+  return userData;
 });

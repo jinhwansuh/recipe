@@ -1,6 +1,6 @@
 import { after, NextRequest } from 'next/server';
 import prisma from '~/lib/prisma';
-import { verifySession } from '~/lib/session';
+import { verifyAdmin } from '~/lib/session';
 import { stringSchema } from '~/utils/validation/common';
 import {
   uploadRecipeSchema,
@@ -70,7 +70,7 @@ export const POST = async (request: Request) => {
   }
 
   try {
-    const session = await verifySession();
+    const session = await verifyAdmin();
 
     await prisma.recipe.create({
       data: {

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { http } from '~/lib/http';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -36,13 +37,15 @@ export default function UploadAuthorPage() {
   const onSubmit = async (values: UploadAuthorValue) => {
     try {
       setIsPending(true);
-      await fetch('/api/author', {
+      const response = await http<{ code: number }>('/api/author', {
         method: 'POST',
         body: JSON.stringify(values),
       });
-      toast({
-        description: 'upload successful',
-      });
+      if (response.code === 1) {
+        toast({
+          description: 'upload successful',
+        });
+      }
     } catch (error: any) {
       toast({
         variant: 'destructive',

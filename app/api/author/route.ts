@@ -1,5 +1,5 @@
 import prisma from '~/lib/prisma';
-import { verifySession } from '~/lib/session';
+import { verifyAdmin, verifySession } from '~/lib/session';
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
@@ -41,7 +41,7 @@ export const POST = async (request: Request) => {
   }
 
   try {
-    await verifySession();
+    await verifyAdmin();
 
     await prisma.author.create({
       data: {
