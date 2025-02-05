@@ -20,6 +20,7 @@ import {
 import { Input } from '~/components/ui/input';
 import { SelectItem } from '~/components/ui/select';
 import { useToast } from '~/hooks/use-toast';
+import { PostApiResponse } from '~/types/api';
 import {
   uploadRecipeSchema,
   UploadRecipeValue,
@@ -84,7 +85,7 @@ export default function UploadRecipePage() {
   const onSubmit = async (values: UploadRecipeValue) => {
     try {
       setIsPending(true);
-      const response = await http<{ code: number }>('/api/recipe', {
+      const response = await http<PostApiResponse>('/api/recipe', {
         method: 'POST',
         body: JSON.stringify(values),
       });

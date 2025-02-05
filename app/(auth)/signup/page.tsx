@@ -25,6 +25,7 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
+import { PostApiResponse } from '~/types/api';
 import { signupSchema, SignupValue } from '~/utils/validation/user';
 import { PAGE_ROUTES } from '~/constants/route';
 
@@ -45,7 +46,7 @@ export default function SignUp() {
   const onSubmit = async (values: SignupValue) => {
     try {
       setIsPending(true);
-      const response = await http<{ code: number }>('/api/auth/signup', {
+      const response = await http<PostApiResponse>('/api/auth/signup', {
         method: 'POST',
         body: JSON.stringify(values),
       });

@@ -16,6 +16,7 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
+import { PostApiResponse } from '~/types/api';
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
@@ -37,7 +38,7 @@ export default function UploadAuthorPage() {
   const onSubmit = async (values: UploadAuthorValue) => {
     try {
       setIsPending(true);
-      const response = await http<{ code: number }>('/api/author', {
+      const response = await http<PostApiResponse>('/api/author', {
         method: 'POST',
         body: JSON.stringify(values),
       });
