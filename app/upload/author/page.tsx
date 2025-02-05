@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { http } from '~/lib/http';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -15,6 +16,7 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
+import { PostApiResponse } from '~/types/api';
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
@@ -36,13 +38,15 @@ export default function UploadAuthorPage() {
   const onSubmit = async (values: UploadAuthorValue) => {
     try {
       setIsPending(true);
-      await fetch('/api/author', {
+      const response = await http<PostApiResponse>('/api/author', {
         method: 'POST',
         body: JSON.stringify(values),
       });
-      toast({
-        description: 'upload successful',
-      });
+      if (response.code === 1) {
+        toast({
+          description: 'upload successful',
+        });
+      }
     } catch (error: any) {
       toast({
         variant: 'destructive',

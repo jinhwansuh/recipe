@@ -1,9 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpUser } from '~/lib/actions/authActions';
+import { http } from '~/lib/http';
 import FullScreenLoading from '~/components/common/Loading/FullScreenLoading';
 import { Button } from '~/components/ui/button';
 import {
@@ -24,10 +25,12 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { useToast } from '~/hooks/use-toast';
+import { PostApiResponse } from '~/types/api';
 import { signupSchema, SignupValue } from '~/utils/validation/user';
 import { PAGE_ROUTES } from '~/constants/route';
 
 export default function SignUp() {
+  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const { toast } = useToast();
   const form = useForm<SignupValue>({
@@ -43,10 +46,16 @@ export default function SignUp() {
   const onSubmit = async (values: SignupValue) => {
     try {
       setIsPending(true);
-      await signUpUser(values);
-      toast({
-        description: 'signup successful',
+      const response = await http<PostApiResponse>('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify(values),
       });
+      if (response.code === 1) {
+        toast({
+          description: 'signup successful',
+        });
+        router.replace(PAGE_ROUTES.SIGN_IN);
+      }
     } catch (error: any) {
       toast({
         variant: 'destructive',

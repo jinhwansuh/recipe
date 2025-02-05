@@ -10,7 +10,7 @@
 
 ## tech stack
 - Next.js v15
-- Auth.js
+- Auth - Stateless Sessions ([middleware](https://github.com/jinhwansuh/recipe/blob/develop/middleware.ts), [Session](https://github.com/jinhwansuh/recipe/blob/develop/lib/session.ts))
 - shadcn/ui, tailwind
 - React-hook-form, Zod
-- prisma, supabase
+- prisma, neon

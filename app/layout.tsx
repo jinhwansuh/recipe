@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { SessionProvider } from 'next-auth/react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '~/components/theme/theme-provider';
 import { Toaster } from '~/components/ui/toaster';
@@ -36,9 +35,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider>
-            <div className='mx-auto max-w-screen-md'>{children}</div>
-          </SessionProvider>
+          <div className='mx-auto max-w-screen-md'>{children}</div>
           <Toaster />
         </ThemeProvider>
       </body>

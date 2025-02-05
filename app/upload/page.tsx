@@ -20,6 +20,7 @@ import {
 import { Input } from '~/components/ui/input';
 import { SelectItem } from '~/components/ui/select';
 import { useToast } from '~/hooks/use-toast';
+import { PostApiResponse } from '~/types/api';
 import {
   uploadRecipeSchema,
   UploadRecipeValue,
@@ -84,14 +85,16 @@ export default function UploadRecipePage() {
   const onSubmit = async (values: UploadRecipeValue) => {
     try {
       setIsPending(true);
-      await fetch('/api/recipe', {
+      const response = await http<PostApiResponse>('/api/recipe', {
         method: 'POST',
         body: JSON.stringify(values),
       });
-      toast({
-        description: 'upload successful',
-      });
-      form.reset();
+      if (response.code === 1) {
+        toast({
+          description: 'upload successful',
+        });
+        form.reset();
+      }
     } catch (error: any) {
       toast({
         variant: 'destructive',

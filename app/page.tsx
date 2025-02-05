@@ -10,8 +10,10 @@ import { Separator } from '~/components/ui/separator';
 import { PAGE_ROUTES } from '~/constants/route';
 import { GetMainApi } from './api/main/route';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
-  const data = await http<GetMainApi>('/api/main', { cache: 'no-store' });
+  const data = await http<GetMainApi>('/api/main');
 
   return (
     <>
