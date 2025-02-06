@@ -49,7 +49,7 @@ export default async function SearchHeader() {
           <Popover>
             <PopoverTrigger>
               <Avatar>
-                <AvatarImage src='https://github.com/shadcn.png' />
+                <AvatarImage src='https://placehold.co/600x400' />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </PopoverTrigger>

@@ -11,6 +11,7 @@ import { PAGE_ROUTES } from '~/constants/route';
 import { GetMainApi } from './api/main/route';
 
 export default async function Home() {
+  console.log(API_BASE_URL);
   const data = await http<GetMainApi>('/api/main', {
     cache: 'no-cache',
   });

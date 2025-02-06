@@ -52,9 +52,7 @@ export const GET = async () => {
     });
     const authors: Author = await prisma.author.findMany();
 
-    return new Response(JSON.stringify({ recipes, authors }), {
-      status: 200,
-    });
+    return Response.json({ recipes, authors });
   } catch (error: any) {
     return ErrorResponse(error.message, 500);
   }

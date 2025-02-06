@@ -8,7 +8,6 @@ import { TokenExpiredTime } from '~/constants/time';
 import { UserSessionType } from '~/app/api/auth/signin/route';
 import { commonCookieOptions } from './cookie';
 import { decrypt, encrypt } from './crypto';
-import { CustomError } from './error';
 import prisma from './prisma';
 
 export const createSession = async (request: NextRequest) => {
@@ -95,12 +94,12 @@ export const verifySession = cache(async () => {
   const cookie = (await cookies()).get(AuthSessionKey)?.value;
 
   if (!cookie) {
-    throw new CustomError('not authorized', 401);
+    return { error: { message: 'not authorized', status: 401 } };
   }
   const session = await decrypt(cookie);
 
   if (!session) {
-    throw new CustomError('not authorized', 401);
+    return { error: { message: 'not authorized', status: 401 } };
   }
 
   return { isAuth: true, user: session as { user: UserSessionType } };
@@ -119,7 +118,7 @@ export const getUser = cache(async () => {
 export const verifyAdmin = cache(async () => {
   const userData = await verifySession();
   if (!userData.isAuth || userData.user.user.role !== 'ADMIN') {
-    throw new CustomError('not authorized', 401);
+    return { error: { message: 'not authorized', status: 401 } };
   }
 
   return userData;

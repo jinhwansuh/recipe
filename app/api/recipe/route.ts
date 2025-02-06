@@ -54,9 +54,7 @@ export const GET = async (request: NextRequest) => {
       });
     });
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-    });
+    return Response.json(response);
   } catch (error: any) {
     return ErrorResponse(error.message, 500);
   }
@@ -68,10 +66,12 @@ export const POST = async (request: Request) => {
   if (!parseData.success) {
     return ErrorResponse(parseData.error.errors[0].message, 400);
   }
+  const session = await verifyAdmin();
+  if (session.error) {
+    return ErrorResponse(session.error.message, session.error.status);
+  }
 
   try {
-    const session = await verifyAdmin();
-
     await prisma.recipe.create({
       data: {
         title: parseData.data.title,
@@ -85,9 +85,12 @@ export const POST = async (request: Request) => {
         userId: session.user.user.id,
       },
     });
-    return new Response(JSON.stringify({ code: 1 }), {
-      status: 201,
-    });
+    return Response.json(
+      { code: 1 },
+      {
+        status: 201,
+      },
+    );
   } catch (error: any) {
     return ErrorResponse(error.message || error.code, 500);
   }
