@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { http } from '~/lib/http';
+import { API_BASE_URL, http } from '~/lib/http';
 import ProfileHeader from '~/components/Header/ProfileHeader';
 import SearchInput from '~/components/common/SearchInput/SearchInput';
 import Text from '~/components/common/Text/Text';
@@ -10,9 +10,10 @@ import { Separator } from '~/components/ui/separator';
 import { PAGE_ROUTES } from '~/constants/route';
 import { GetMainApi } from './api/main/route';
 
-export const dynamic = 'force-dynamic';
-
 export default async function Home() {
+  if (!API_BASE_URL) {
+    return null;
+  }
   const data = await http<GetMainApi>('/api/main');
 
   return (
