@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { cache } from 'react';
+import { USER_ROLE } from '~/types/auth';
 import { AuthSessionKey, EntryUserKey } from '~/constants/key';
 import { TokenExpiredTime } from '~/constants/time';
 import { UserSessionType } from '~/app/api/auth/signin/route';
@@ -118,7 +119,7 @@ export const getUser = cache(async () => {
 
 export const verifyAdmin = cache(async () => {
   const userData = await verifySession();
-  if (!userData.isAuth || userData.user.user.role !== 'ADMIN') {
+  if (!userData.isAuth || userData.user.user.role !== USER_ROLE.ADMIN) {
     throw new CustomError('not authorized', 401);
   }
 

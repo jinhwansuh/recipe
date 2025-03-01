@@ -23,6 +23,9 @@ export type Author = {
   name: string;
   imageUrl: string | null;
   youtubeId: string | null;
+  _count: {
+    Recipe: number;
+  };
 };
 
 export type GetMainApi = {
@@ -50,8 +53,25 @@ export const GET = async () => {
           },
         },
       },
+      take: 5,
     });
-    const authors: Array<Author> = await prisma.author.findMany();
+    const authors: Array<Author> = await prisma.author.findMany({
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        youtubeUrl: true,
+        name: true,
+        imageUrl: true,
+        youtubeId: true,
+        _count: {
+          select: {
+            Recipe: true,
+          },
+        },
+      },
+      take: 6,
+    });
 
     return Response.json({ recipes, authors });
   } catch (error: any) {
