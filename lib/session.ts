@@ -119,8 +119,11 @@ export const getUser = cache(async () => {
 
 export const verifyAdmin = cache(async () => {
   const userData = await verifySession();
-  if (!userData.isAuth || userData.user.user.role !== USER_ROLE.ADMIN) {
+  if (!userData.isAuth) {
     throw new CustomError('not authorized', 401);
+  }
+  if (userData.user.user.role !== USER_ROLE.ADMIN) {
+    throw new CustomError('Forbidden', 403);
   }
 
   return userData;

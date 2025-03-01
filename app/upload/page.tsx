@@ -47,6 +47,7 @@ export default function UploadRecipePage() {
       imageUrl: '',
       videoUrl: '',
       recipeAuthor: '',
+      tip: '',
     },
   });
   const {
@@ -321,6 +322,19 @@ export default function UploadRecipePage() {
                     </SelectItem>
                   ))}
                 </SelectForm>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='tip'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>tip</FormLabel>
+                <FormControl>
+                  <Input placeholder='any tips?' {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

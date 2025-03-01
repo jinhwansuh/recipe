@@ -66,12 +66,12 @@ export const POST = async (request: Request) => {
   if (!parseData.success) {
     return ErrorResponse(parseData.error.errors[0].message, 400);
   }
-  const session = await verifyAdmin();
-  if (session.error) {
-    return ErrorResponse(session.error.message, session.error.status);
-  }
 
   try {
+    const session = await verifyAdmin();
+    if (!session) {
+      return ErrorResponse('Forbidden', 403);
+    }
     await prisma.recipe.create({
       data: {
         title: parseData.data.title,
@@ -83,6 +83,7 @@ export const POST = async (request: Request) => {
         steps: parseData.data.steps.map((step) => step.description),
         authorID: parseData.data.recipeAuthor,
         userId: session.user.user.id,
+        tip: parseData.data.tip,
       },
     });
     return Response.json(
