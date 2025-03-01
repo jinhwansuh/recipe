@@ -6,13 +6,14 @@ export type Recipe = {
   title: string;
   tags: string[];
   thumbnailUrl: string | null;
+  viewCount: number;
   author: {
     name: string;
   };
   _count: {
     likes: number;
   };
-}[];
+};
 
 export type Author = {
   id: string;
@@ -22,22 +23,22 @@ export type Author = {
   name: string;
   imageUrl: string | null;
   youtubeId: string | null;
-}[];
+};
 
 export type GetMainApi = {
-  recipes: Recipe;
-  authors: Author;
+  recipes: Array<Recipe>;
+  authors: Array<Author>;
 };
 
 export const GET = async () => {
   try {
-    const recipes: Recipe = await prisma.recipe.findMany({
+    const recipes: Array<Recipe> = await prisma.recipe.findMany({
       select: {
         id: true,
         title: true,
         thumbnailUrl: true,
-
         tags: true,
+        viewCount: true,
         author: {
           select: {
             name: true,
@@ -50,7 +51,7 @@ export const GET = async () => {
         },
       },
     });
-    const authors: Author = await prisma.author.findMany();
+    const authors: Array<Author> = await prisma.author.findMany();
 
     return Response.json({ recipes, authors });
   } catch (error: any) {
