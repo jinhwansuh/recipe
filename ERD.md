@@ -68,6 +68,7 @@ erDiagram
   Float serving
   Int viewCount
   String userId FK
+  String tip "nullable"
 }
 "Author" {
   String id PK
@@ -181,6 +182,7 @@ erDiagram
   - `serving`: 
   - `viewCount`: 
   - `userId`: 
+  - `tip`: 
 
 ### `Author`
 
