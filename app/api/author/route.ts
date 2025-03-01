@@ -14,9 +14,9 @@ type Author = {
   updatedAt: Date;
   youtubeUrl: string | null;
   youtubeId: string | null;
-}[];
+};
 
-export type GetAuthorApi = Author;
+export type GetAuthorApi = Array<Author>;
 
 export const GET = async () => {
   try {

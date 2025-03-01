@@ -12,6 +12,7 @@ model Recipe {
   serving      Float
   viewCount    Int       @default(0)
   userId       String
+  tip          String?
   comments     Comment[]
   likes        Like[]
   author       Author    @relation(fields: [authorID], references: [id])

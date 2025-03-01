@@ -6,4 +6,5 @@ export const PAGE_ROUTES = {
   UPLOAD_AUTHOR: '/upload/author',
   SEARCH: '/search',
   RECIPE: '/recipe',
+  AUTHOR: '/author',
 } as const;

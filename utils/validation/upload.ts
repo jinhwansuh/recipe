@@ -25,6 +25,7 @@ export const uploadRecipeSchema = z.object({
   imageUrl: z.string(),
   videoUrl: z.string(),
   recipeAuthor: z.string().min(1, { message: 'Author is required' }),
+  tip: z.string(),
 });
 
 export type UploadRecipeValue = z.infer<typeof uploadRecipeSchema>;
