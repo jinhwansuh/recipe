@@ -5,8 +5,8 @@ import SearchInput from '~/components/common/SearchInput/SearchInput';
 import Text from '~/components/common/Text/Text';
 import { Separator } from '~/components/ui/separator';
 import { GetMainApi } from './api/main/route';
-import AuthorCard from './components/AuthorCard';
-import RecipeCard from './components/RecipeCard';
+import AuthorCard from './src/components/AuthorCard';
+import RecipeCard from './src/components/RecipeCard';
 
 export default async function Home() {
   const data = await http<GetMainApi>('/api/main', {
