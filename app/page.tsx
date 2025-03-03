@@ -25,7 +25,7 @@ export default async function Home() {
             weight={'bold'}
             size={'subheading'}
             fontColor={'foreground'}
-            className='text-[#8355BE]'
+            className='text-main'
           >
             Recipes
           </Text>
@@ -45,7 +45,7 @@ export default async function Home() {
             weight={'bold'}
             size={'subheading'}
             fontColor={'foreground'}
-            className='text-[#8355BE]'
+            className='text-main'
           >
             Authors
           </Text>
