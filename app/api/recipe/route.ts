@@ -23,6 +23,13 @@ export type Recipe = {
   serving: number;
   viewCount: number;
   userId: string;
+  _count: {
+    likes: number;
+  };
+  author: {
+    name: string;
+    imageUrl: string;
+  };
 };
 
 export type GetRecipeApi = Recipe;
@@ -42,6 +49,19 @@ export const GET = async (request: NextRequest) => {
     const response = await prisma.recipe.findUnique({
       where: {
         id: parseData.data,
+      },
+      include: {
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
+        author: {
+          select: {
+            name: true,
+            imageUrl: true,
+          },
+        },
       },
     });
 
