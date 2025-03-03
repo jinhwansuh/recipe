@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { http } from '~/lib/http';
-import ProfileHeader from '~/components/Header/ProfileHeader';
+import ProfileHeader from '~/components/common/Header/ProfileHeader';
 import SearchInput from '~/components/common/SearchInput/SearchInput';
 import Text from '~/components/common/Text/Text';
 import { Separator } from '~/components/ui/separator';

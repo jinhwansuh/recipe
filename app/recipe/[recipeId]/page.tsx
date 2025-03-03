@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { http } from '~/lib/http';
-import ProfileHeader from '~/components/Header/ProfileHeader';
+import ProfileHeader from '~/components/common/Header/ProfileHeader';
 import Text from '~/components/common/Text/Text';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
@@ -10,7 +10,7 @@ import { Separator } from '~/components/ui/separator';
 import { RecipeQueryKey } from '~/constants/key';
 import { PAGE_ROUTES } from '~/constants/route';
 import { GetRecipeApi } from '~/app/api/recipe/route';
-import Tip from './src/components/Tip';
+import Tip from './components/Tip';
 
 export default async function Recipe({
   params,
