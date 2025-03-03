@@ -56,14 +56,7 @@ export const GET = async () => {
       take: 5,
     });
     const authors: Array<Author> = await prisma.author.findMany({
-      select: {
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-        youtubeUrl: true,
-        name: true,
-        imageUrl: true,
-        youtubeId: true,
+      include: {
         _count: {
           select: {
             Recipe: true,

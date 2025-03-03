@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} w-full antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
           attribute='class'
@@ -35,7 +35,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className='mx-auto max-w-screen-md'>{children}</div>
+          <div className='mx-auto h-full max-w-screen-md bg-[#872cff03] px-4'>
+            {children}
+          </div>
           <Toaster />
         </ThemeProvider>
       </body>

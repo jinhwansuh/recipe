@@ -18,7 +18,7 @@ import {
 } from '~/components/ui/popover';
 import { PAGE_ROUTES } from '~/constants/route';
 
-export default async function SearchHeader() {
+export default async function ProfileHeader() {
   const session = await getUser();
 
   const handleSignOutClick = async () => {
