@@ -69,7 +69,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,scss}": [
-      "eslint --fix"
+      "eslint"
     ]
   }
 }
