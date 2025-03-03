@@ -23,6 +23,7 @@ export type Recipe = {
   serving: number;
   viewCount: number;
   userId: string;
+  tip: string;
   _count: {
     likes: number;
   };
