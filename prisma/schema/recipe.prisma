@@ -1,0 +1,57 @@
+model Recipe {
+  id           String    @id @default(cuid())
+  title        String
+  authorID     String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  youtubeUrl   String?
+  ingredients  Json
+  steps        String[]
+  tags         String[]
+  thumbnailUrl String?
+  serving      Float
+  viewCount    Int       @default(0)
+  userId       String
+  tip          String?
+  comments     Comment[]
+  likes        Like[]
+  author       Author    @relation(fields: [authorID], references: [id])
+  user         User      @relation(fields: [userId], references: [id])
+}
+
+model Author {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  youtubeUrl String?
+  imageUrl   String?
+  youtubeId  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Recipe     Recipe[]
+}
+
+model Comment {
+  id            String   @id @default(cuid())
+  content       String
+  recipeId      String
+  userId        String?
+  guestName     String?
+  guestPassword String?
+  ipAddress     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  recipe        Recipe   @relation(fields: [recipeId], references: [id])
+  user          User?    @relation(fields: [userId], references: [id])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  recipeId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  recipe    Recipe   @relation(fields: [recipeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, recipeId])
+}

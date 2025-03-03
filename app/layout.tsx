@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { ThemeProvider } from '~/components/theme/theme-provider';
+import { Toaster } from '~/components/ui/toaster';
 import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
+const geistSans = Geist({
   variable: '--font-geist-sans',
-  weight: '100 900',
+  subsets: ['latin'],
 });
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
+
+const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
-  weight: '100 900',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
@@ -24,9 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+    <html lang='en' suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='light'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className='mx-auto h-full max-w-screen-md bg-[#872cff03] px-4'>
+            {children}
+          </div>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

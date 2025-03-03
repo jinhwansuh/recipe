@@ -35,3 +35,30 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('getByCy', (text) => {
+  return cy.get(`[data-cy=${text}]`);
+});
+
+Cypress.on('uncaught:exception', (err) => {
+  // Check if the error message includes "NEXT_REDIRECT"
+  if (err.message.includes('NEXT_REDIRECT')) {
+    return false;
+  }
+});
+
+Cypress.Commands.add('login', (email: string, password: string) => {
+  cy.getByCy('email-input').type(email);
+  cy.getByCy('password-input').type(`${password}{enter}`, { log: false });
+  cy.intercept('GET', 'api/auth/session').as('session');
+  cy.wait('@session');
+});
+
+Cypress.Commands.add('loginTestId', () => {
+  cy.login(
+    Cypress.env('CYPRESS_TEST_EMAIL'),
+    Cypress.env('CYPRESS_TEST_PASSWORD'),
+  );
+  cy.url().should('eq', Cypress.config().baseUrl + '/');
+  cy.getCookie('authjs.session-token').should('exist');
+});
