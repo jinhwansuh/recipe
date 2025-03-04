@@ -49,7 +49,7 @@ export default async function Home() {
           >
             Authors
           </Text>
-          <div className='flex flex-wrap gap-4 py-4'>
+          <div className='flex flex-col gap-4 py-4'>
             {data.authors.map((author) => (
               <AuthorCard key={author.id} author={author} />
             ))}
