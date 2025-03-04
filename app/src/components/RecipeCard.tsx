@@ -16,7 +16,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       className='flex justify-between py-4'
     >
       <div>
-        <Text size={'subheading'}>{title}</Text>
+        <Text size={'large'}>{title}</Text>
         <div className='flex gap-1 truncate'>
           <Text size={'caption'}>태그:</Text>
           <div className='flex gap-1'>
@@ -39,7 +39,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           </Text>
         </div>
       </div>
-      <div>{author.name}</div>
+      <Text size={'body'} weight={'light'} className='max-w-24'>
+        {author.name}
+      </Text>
     </Link>
   );
 }

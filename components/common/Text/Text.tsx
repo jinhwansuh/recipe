@@ -7,6 +7,7 @@ const textVariants = cva('', {
     size: {
       heading: 'text-4xl font-bold',
       subheading: 'text-2xl font-semibold',
+      large: 'text-xl',
       body: 'text-base',
       caption: 'text-sm text-muted-foreground',
     },

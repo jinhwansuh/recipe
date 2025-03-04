@@ -19,14 +19,14 @@ export default function AuthorCard({ author }: AuthorCardProps) {
 
   return (
     <Link href={`${PAGE_ROUTES.AUTHOR}/${id}`}>
-      <Card key={id} className='w-60 cursor-pointer p-4'>
+      <Card key={id} className='cursor-pointer p-4'>
         <CardContent className='flex items-center gap-4 p-0'>
           <Avatar>
             <AvatarImage src={imageUrl || 'https://placehold.co/400'} />
             <AvatarFallback>Profile</AvatarFallback>
           </Avatar>
           <div>
-            <Text size={'subheading'}>{name}</Text>
+            <Text size={'large'}>{name}</Text>
             <Text size={'caption'} fontColor={'muted'}>
               레시피: {Recipe}
             </Text>
