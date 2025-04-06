@@ -1,6 +1,8 @@
+import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import prisma from '~/lib/prisma';
 import { signupSchema } from '~/utils/validation/user';
+import { ERROR_MESSAGE, STATUS_CODE } from '~/constants/api';
 import { ErrorResponse } from '../../lib/common';
 
 export const POST = async (request: Request) => {
@@ -9,7 +11,10 @@ export const POST = async (request: Request) => {
   const parsedData = signupSchema.safeParse(data);
 
   if (!parsedData.success) {
-    throw ErrorResponse(parsedData.error.errors[0].message, 400);
+    throw ErrorResponse(
+      parsedData.error.errors[0].message,
+      STATUS_CODE.BAD_REQUEST,
+    );
   }
 
   const isExistEmail = await prisma.user.findUnique({
@@ -17,8 +22,12 @@ export const POST = async (request: Request) => {
       email: parsedData.data.email,
     },
   });
+
   if (!!isExistEmail) {
-    return ErrorResponse('Email already exists', 400);
+    return ErrorResponse(
+      ERROR_MESSAGE[STATUS_CODE.BAD_REQUEST].EMAIL_EXISTS,
+      STATUS_CODE.BAD_REQUEST,
+    );
   }
 
   try {
@@ -30,10 +39,14 @@ export const POST = async (request: Request) => {
         password: hashedPassword,
       },
     });
-    return new Response(JSON.stringify({ code: 1 }), {
-      status: 201,
-    });
+
+    return NextResponse.json(
+      { code: 1 },
+      {
+        status: STATUS_CODE.CREATED,
+      },
+    );
   } catch (error: any) {
-    return ErrorResponse(error.message || 'server error', 500);
+    return ErrorResponse(error.message, error.status);
   }
 };

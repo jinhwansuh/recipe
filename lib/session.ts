@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { cache } from 'react';
 import { USER_ROLE } from '~/types/auth';
+import { ERROR_MESSAGE, STATUS_CODE } from '~/constants/api';
 import { AuthSessionKey, EntryUserKey } from '~/constants/key';
 import { TokenExpiredTime } from '~/constants/time';
 import { UserSessionType } from '~/app/api/auth/signin/route';
@@ -96,12 +97,18 @@ export const verifySession = cache(async () => {
   const cookie = (await cookies()).get(AuthSessionKey)?.value;
 
   if (!cookie) {
-    throw new CustomError('not authorized', 401);
+    throw new CustomError(
+      ERROR_MESSAGE[STATUS_CODE.UN_AUTHORIZED],
+      STATUS_CODE.UN_AUTHORIZED,
+    );
   }
   const session = await decrypt(cookie);
 
   if (!session) {
-    throw new CustomError('not authorized', 401);
+    throw new CustomError(
+      ERROR_MESSAGE[STATUS_CODE.UN_AUTHORIZED],
+      STATUS_CODE.UN_AUTHORIZED,
+    );
   }
 
   return { isAuth: true, user: session as { user: UserSessionType } };
@@ -120,10 +127,16 @@ export const getUser = cache(async () => {
 export const verifyAdmin = cache(async () => {
   const userData = await verifySession();
   if (!userData.isAuth) {
-    throw new CustomError('not authorized', 401);
+    throw new CustomError(
+      ERROR_MESSAGE[STATUS_CODE.UN_AUTHORIZED],
+      STATUS_CODE.UN_AUTHORIZED,
+    );
   }
   if (userData.user.user.role !== USER_ROLE.ADMIN) {
-    throw new CustomError('Forbidden', 403);
+    throw new CustomError(
+      ERROR_MESSAGE[STATUS_CODE.FORBIDDEN],
+      STATUS_CODE.FORBIDDEN,
+    );
   }
 
   return userData;

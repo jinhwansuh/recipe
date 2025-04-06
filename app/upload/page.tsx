@@ -76,7 +76,7 @@ export default function UploadRecipePage() {
       } catch (error: any) {
         toast({
           variant: 'destructive',
-          description: error.message || 'server error',
+          description: error.message,
         });
       }
     };
@@ -99,7 +99,7 @@ export default function UploadRecipePage() {
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        description: error.message || 'server error',
+        description: error.message,
       });
     } finally {
       setIsPending(false);
