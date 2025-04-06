@@ -50,7 +50,7 @@ export default function UploadAuthorPage() {
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        description: error.message || 'server error',
+        description: error.message,
       });
     } finally {
       setIsPending(false);
