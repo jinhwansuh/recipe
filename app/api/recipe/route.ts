@@ -1,4 +1,4 @@
-import { after, NextRequest } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import prisma from '~/lib/prisma';
 import { verifyAdmin } from '~/lib/session';
 import { stringSchema } from '~/utils/validation/common';
@@ -6,6 +6,7 @@ import {
   uploadRecipeSchema,
   UploadRecipeValue,
 } from '~/utils/validation/upload';
+import { ERROR_MESSAGE, STATUS_CODE } from '~/constants/api';
 import { RecipeQueryKey } from '~/constants/key';
 import { ErrorResponse } from '../lib/common';
 
@@ -41,8 +42,8 @@ export const GET = async (request: NextRequest) => {
   const parseData = stringSchema.safeParse(recipeId);
 
   if (!parseData.success) {
-    return new Response(`${parseData.error.errors[0].message}`, {
-      status: 400,
+    return NextResponse.json(parseData.error.errors[0].message, {
+      status: STATUS_CODE.BAD_REQUEST,
     });
   }
 
@@ -75,9 +76,9 @@ export const GET = async (request: NextRequest) => {
       });
     });
 
-    return Response.json(response);
+    return NextResponse.json(response);
   } catch (error: any) {
-    return ErrorResponse(error.message, 500);
+    return ErrorResponse(error.message, error.status);
   }
 };
 
@@ -85,13 +86,19 @@ export const POST = async (request: Request) => {
   const res: UploadRecipeValue = await request.json();
   const parseData = uploadRecipeSchema.safeParse(res);
   if (!parseData.success) {
-    return ErrorResponse(parseData.error.errors[0].message, 400);
+    return ErrorResponse(
+      parseData.error.errors[0].message,
+      STATUS_CODE.BAD_REQUEST,
+    );
   }
 
   try {
     const session = await verifyAdmin();
     if (!session) {
-      return ErrorResponse('Forbidden', 403);
+      return ErrorResponse(
+        ERROR_MESSAGE[STATUS_CODE.FORBIDDEN],
+        STATUS_CODE.FORBIDDEN,
+      );
     }
     await prisma.recipe.create({
       data: {
@@ -107,13 +114,13 @@ export const POST = async (request: Request) => {
         tip: parseData.data.tip,
       },
     });
-    return Response.json(
+    return NextResponse.json(
       { code: 1 },
       {
-        status: 201,
+        status: STATUS_CODE.CREATED,
       },
     );
   } catch (error: any) {
-    return ErrorResponse(error.message || error.code, 500);
+    return ErrorResponse(error.message, error.status);
   }
 };

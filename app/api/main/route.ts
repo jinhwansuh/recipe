@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import prisma from '~/lib/prisma';
 import { ErrorResponse } from '../lib/common';
 
@@ -66,8 +67,8 @@ export const GET = async () => {
       take: 6,
     });
 
-    return Response.json({ recipes, authors });
+    return NextResponse.json({ recipes, authors });
   } catch (error: any) {
-    return ErrorResponse(error.message, 500);
+    return ErrorResponse(error.message, error.status);
   }
 };

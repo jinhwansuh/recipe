@@ -4,6 +4,7 @@ import { commonCookieOptions } from '~/lib/cookie';
 import { encrypt } from '~/lib/crypto';
 import prisma from '~/lib/prisma';
 import { signinSchema } from '~/utils/validation/user';
+import { ERROR_MESSAGE, STATUS_CODE } from '~/constants/api';
 import { AuthSessionKey } from '~/constants/key';
 import { TokenExpiredTime } from '~/constants/time';
 import { ErrorResponse } from '../../lib/common';
@@ -23,7 +24,10 @@ export const POST = async (request: Request) => {
   const parsedData = signinSchema.safeParse(values);
 
   if (!parsedData.success) {
-    return ErrorResponse(`Invalid identifier or password`, 400);
+    return ErrorResponse(
+      ERROR_MESSAGE[STATUS_CODE.BAD_REQUEST].INVALID_DATA,
+      STATUS_CODE.BAD_REQUEST,
+    );
   }
 
   const userResponse = await prisma.user.findUnique({
@@ -33,7 +37,10 @@ export const POST = async (request: Request) => {
   });
 
   if (!userResponse) {
-    return ErrorResponse(`No user found`, 400);
+    return ErrorResponse(
+      ERROR_MESSAGE[STATUS_CODE.BAD_REQUEST].NO_USER,
+      STATUS_CODE.BAD_REQUEST,
+    );
   }
 
   const isPasswordMatch = bcrypt.compareSync(
@@ -42,7 +49,10 @@ export const POST = async (request: Request) => {
   );
 
   if (!isPasswordMatch) {
-    return ErrorResponse(`Invalid password`, 400);
+    return ErrorResponse(
+      ERROR_MESSAGE[STATUS_CODE.BAD_REQUEST].INVALID_PASSWORD,
+      STATUS_CODE.BAD_REQUEST,
+    );
   }
 
   const expires = new Date(Date.now() + TokenExpiredTime);
@@ -59,7 +69,7 @@ export const POST = async (request: Request) => {
   const response = NextResponse.json(
     { code: 1 },
     {
-      status: 200,
+      status: STATUS_CODE.SUCCESS,
     },
   );
 

@@ -1,9 +1,11 @@
+import { NextResponse } from 'next/server';
 import prisma from '~/lib/prisma';
 import { verifyAdmin, verifySession } from '~/lib/session';
 import {
   uploadAuthorSchema,
   UploadAuthorValue,
 } from '~/utils/validation/upload';
+import { STATUS_CODE } from '~/constants/api';
 import { ErrorResponse } from '../lib/common';
 
 type Author = {
@@ -22,11 +24,11 @@ export const GET = async () => {
   try {
     await verifySession();
     const authors = await prisma.author.findMany();
-    return new Response(JSON.stringify(authors), {
-      status: 200,
+    return NextResponse.json(authors, {
+      status: STATUS_CODE.SUCCESS,
     });
   } catch (error: any) {
-    return ErrorResponse(error.message, 500);
+    return ErrorResponse(error.message, error.status);
   }
 };
 
@@ -35,8 +37,8 @@ export const POST = async (request: Request) => {
   const parseData = uploadAuthorSchema.safeParse(res);
 
   if (!parseData.success) {
-    return new Response(`${parseData.error.errors[0].message}`, {
-      status: 400,
+    return NextResponse.json(parseData.error.errors[0].message, {
+      status: STATUS_CODE.BAD_REQUEST,
     });
   }
 
@@ -51,10 +53,13 @@ export const POST = async (request: Request) => {
         youtubeId: parseData.data.youtubeId,
       },
     });
-    return new Response(JSON.stringify({ code: 1 }), {
-      status: 201,
-    });
+    return NextResponse.json(
+      { code: 1 },
+      {
+        status: STATUS_CODE.CREATED,
+      },
+    );
   } catch (error: any) {
-    return ErrorResponse(error.message, 500);
+    return ErrorResponse(error.message, error.status);
   }
 };
