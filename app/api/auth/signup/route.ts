@@ -22,6 +22,7 @@ export const POST = async (request: Request) => {
       email: parsedData.data.email,
     },
   });
+
   if (!!isExistEmail) {
     return ErrorResponse(
       ERROR_MESSAGE[STATUS_CODE.BAD_REQUEST].EMAIL_EXISTS,
@@ -38,6 +39,7 @@ export const POST = async (request: Request) => {
         password: hashedPassword,
       },
     });
+
     return NextResponse.json(
       { code: 1 },
       {

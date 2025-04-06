@@ -53,6 +53,7 @@ export const POST = async (request: Request) => {
         youtubeId: parseData.data.youtubeId,
       },
     });
+
     return NextResponse.json(
       { code: 1 },
       {
