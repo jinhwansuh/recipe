@@ -11,12 +11,13 @@ export const http = async <T>(
     ...init,
   });
 
-  if (!response.ok) throw new Error(response.statusText);
-  return response.json() as Promise<T>;
-};
+  if (!response.ok) {
+    const errorMessage = await response.json().catch(() => null);
+    const error = new Error();
+    (error as any).status = response.status;
+    (error as any).message = errorMessage;
 
-export const errorResponse = (error: any) => {
-  return new Response(`${error.message || 'server error'}`, {
-    status: error.code || 500,
-  });
+    throw error;
+  }
+  return response.json() as Promise<T>;
 };
