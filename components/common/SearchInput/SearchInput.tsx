@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Search } from 'lucide-react';
@@ -12,16 +12,19 @@ import { PAGE_ROUTES } from '~/constants/route';
 
 export default function SearchInput() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm<SearchValue>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
-      searchValue: '',
+      [SearchQueryKey]: searchParams.get(SearchQueryKey) || '',
     },
   });
 
   function onSubmit(data: SearchValue) {
-    router.push(`${PAGE_ROUTES.SEARCH}?${SearchQueryKey}=${data.searchValue}`);
+    router.push(
+      `${PAGE_ROUTES.SEARCH}?${SearchQueryKey}=${encodeURIComponent(data[SearchQueryKey])}`,
+    );
   }
 
   return (
@@ -29,7 +32,7 @@ export default function SearchInput() {
       <form onSubmit={form.handleSubmit(onSubmit)} className='relative w-full'>
         <FormField
           control={form.control}
-          name='searchValue'
+          name={SearchQueryKey}
           render={({ field }) => (
             <FormItem>
               <div className='absolute left-1.5 top-1/2 -translate-y-1/2 transform'>
