@@ -9,7 +9,19 @@ import { Author, authorInclude, Recipe, recipeSelect } from '../main/route';
 
 export type Ingredient = Prisma.RecipeGetPayload<object>;
 
-export type GetSearchApi = Array<Recipe | Author | Ingredient>;
+type SearchTabTypeMap = {
+  [SearchTabValue.TITLE]: Recipe[];
+  [SearchTabValue.AUTHOR]: Author[];
+  [SearchTabValue.INGREDIENT]: Ingredient[];
+  unknown: [];
+};
+
+export type GetSearchApi = {
+  [K in keyof SearchTabTypeMap]: {
+    type: K;
+    data: SearchTabTypeMap[K];
+  };
+}[keyof SearchTabTypeMap];
 
 export const GET = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
@@ -40,33 +52,45 @@ export const GET = async (request: NextRequest) => {
       data[SearchTabKey] === undefined ||
       data[SearchTabKey] === SearchTabValue.TITLE
     ) {
-      response = await prisma.recipe.findMany({
-        where: {
-          title: {
-            contains: data[SearchQueryKey],
+      response = {
+        type: SearchTabValue.TITLE,
+        data: await prisma.recipe.findMany({
+          where: {
+            title: {
+              contains: data[SearchQueryKey],
+            },
           },
-        },
-        select: recipeSelect,
-      });
+          select: recipeSelect,
+        }),
+      };
     } else if (data[SearchTabKey] === SearchTabValue.AUTHOR) {
-      response = await prisma.author.findMany({
-        where: {
-          name: {
-            contains: data[SearchQueryKey],
+      response = {
+        type: SearchTabValue.AUTHOR,
+        data: await prisma.author.findMany({
+          where: {
+            name: {
+              contains: data[SearchQueryKey],
+            },
           },
-        },
-        include: authorInclude,
-      });
+          include: authorInclude,
+        }),
+      };
     } else if (data[SearchTabKey] === SearchTabValue.INGREDIENT) {
-      response = await prisma.recipe.findMany({
-        where: {
-          ingredients: {
-            array_contains: [{ name: data[SearchQueryKey] }],
+      response = {
+        type: SearchTabValue.INGREDIENT,
+        data: await prisma.recipe.findMany({
+          where: {
+            ingredients: {
+              array_contains: [{ name: data[SearchQueryKey] }],
+            },
           },
-        },
-      });
+        }),
+      };
     } else {
-      response = [];
+      response = {
+        type: 'unknown',
+        data: [],
+      };
     }
 
     return NextResponse.json(response);
