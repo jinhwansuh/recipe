@@ -1,33 +1,8 @@
 import { NextResponse } from 'next/server';
 import { Prisma } from '@prisma/client';
 import prisma from '~/lib/prisma';
+import { authorInclude, recipeSelect } from '~/lib/prisma/index';
 import { ErrorResponse } from '../lib/common';
-
-export const recipeSelect = {
-  id: true,
-  title: true,
-  thumbnailUrl: true,
-  tags: true,
-  viewCount: true,
-  author: {
-    select: {
-      name: true,
-    },
-  },
-  _count: {
-    select: {
-      likes: true,
-    },
-  },
-} as const;
-
-export const authorInclude = {
-  _count: {
-    select: {
-      Recipe: true,
-    },
-  },
-} as const;
 
 export type Recipe = Prisma.RecipeGetPayload<{ select: typeof recipeSelect }>;
 export type Author = Prisma.AuthorGetPayload<{ include: typeof authorInclude }>;
