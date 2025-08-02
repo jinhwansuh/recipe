@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import prisma from '~/lib/prisma';
 import { ErrorResponse } from '../lib/common';
 
-const recipeSelect = {
+export const recipeSelect = {
   id: true,
   title: true,
   thumbnailUrl: true,
@@ -21,7 +21,7 @@ const recipeSelect = {
   },
 } as const;
 
-const authorInclude = {
+export const authorInclude = {
   _count: {
     select: {
       Recipe: true,
